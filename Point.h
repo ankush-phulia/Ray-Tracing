@@ -40,8 +40,8 @@ public:
 		return (x*v2.x + y*v2.y + z*v2.z);
 	}
 
-	Point add(const Point &v2);
-	Point sub(const Point &v2);
+	Point operator+(const Point &v2);
+	Point operator-(const Point &v2);
 };
 
 

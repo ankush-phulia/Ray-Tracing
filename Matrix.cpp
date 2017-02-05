@@ -13,7 +13,7 @@ Matrix::Matrix(void){                //identity matrix
 	}
 }
 
-Matrix::Matrix(float m[4][]){
+Matrix::Matrix(float m[][4]){
 	for (int i; i < 4; i++) {
 		for (int j; j < 4; j++) {
 			M[i][j] = m[i][j];
@@ -42,16 +42,18 @@ void Matrix::Scale(float factor){
 	}
 }
 
-bool Matrix::isEqual(const Matrix & m2){ for(int i; i<4; i++)
-	for (int j; j < 4; j++) {
-		if (M[i][j] != m2[i][j]) {
-			return false;
+bool Matrix::operator==(const Matrix &m2){ 
+	for (int i; i < 4; i++) {
+		for (int j; j < 4; j++) {
+			if (M[i][j] != m2.M[i][j]) {
+				return false;
+			}
 		}
 	}
 	return true;
 }
 
-Matrix Matrix::Mult(const Matrix &m2){ 
+Matrix Matrix::operator*(const Matrix &m2){ 
 	Matrix Mat(M);
 	float s;
 	for(int i; i<4; i++){
@@ -66,7 +68,7 @@ Matrix Matrix::Mult(const Matrix &m2){
 	return Mat;
 }
 
-Matrix Matrix::Add(const Matrix &m2){
+Matrix Matrix::operator+(const Matrix &m2){
 	Matrix Mat(M);
 	for (int i; i < 4; i++) {
 		for (int j; j < 4; j++) {
@@ -76,7 +78,7 @@ Matrix Matrix::Add(const Matrix &m2){
 	return Mat;
 }
 
-Matrix Matrix::Sub(const Matrix &m2){
+Matrix Matrix::operator-(const Matrix &m2){
   Matrix Mat(M);
   for (int i; i < 4; i++) {
 	  for (int j; j < 4; j++) {
