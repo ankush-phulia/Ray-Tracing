@@ -20,24 +20,24 @@ public:
 		x(a), y(b), z(c), w(d) {
 	}
 
-	inline bool isEqual(Point v2) {
-		return (v2.x == x)&&(v2.y == y)&&(v2.z == z)&&(v2.w == w);
+	inline bool operator==(const Point & v2) {
+		return ((v2.x == x) && (v2.y == y) && (v2.z == z) && (v2.w == w));
 	}
 
-	inline float magnitude() {
-		return (x*x + y*y + z*z);
+	inline float Magnitude() {
+		return sqrt(x*x + y*y + z*z);
 	}
 
-	inline void scale(float factor) {
+	inline void Scale(float factor) {
 		x *= factor; y *= factor; z *= factor;
 	}
 
-	inline float dotProduct(Point v2) {
+	inline float operator*(const Point &v2) {
 		return (x*v2.x + y*v2.y + z*v2.z);
 	}
 
-	Point addSub(Point v2, bool op);
-
+	Point operator+(const Vector &v2);
+	Point operator-(const Vector &v2);
 };
 
 
