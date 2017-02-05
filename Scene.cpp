@@ -89,7 +89,7 @@ void Scene::printScene(){
 	for(int i; i<floor(display.dimX); i++)
 	{   for(int j; j<floor(display.dimY); j++)
 			{	direction = x - camera.origin;
-				direction = VCStoWCS.transform(direction) + VCSOrigin;
+				direction = VCStoWCS.transform(direction);
 				Ray R = Ray(eyeinWCS,direction);
 				Pixel p = recursiveRayTrace(R);
 				display.grid[i][j] = p;

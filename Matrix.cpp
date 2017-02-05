@@ -42,7 +42,7 @@ void Matrix::Scale(float factor){
 	}
 }
 
-bool Matrix::operator==(const Matrix &m2){ 
+bool Matrix::operator==(const Matrix &m2){
 	for (int i; i < 4; i++) {
 		for (int j; j < 4; j++) {
 			if (M[i][j] != m2.M[i][j]) {
@@ -53,7 +53,7 @@ bool Matrix::operator==(const Matrix &m2){
 	return true;
 }
 
-Matrix Matrix::operator*(const Matrix &m2){ 
+Matrix Matrix::operator*(const Matrix &m2){
 	Matrix Mat(M);
 	float s;
 	for(int i; i<4; i++){
