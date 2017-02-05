@@ -12,10 +12,10 @@ public:
 	Matrix(void);
 	Matrix(float m[4][]);
 	void Scale(float factor);
-  bool operator==(const Matrix &);
-  Matrix operator*(const Matrix &);
-	Matrix operator+(const Matrix &);
-	Matrix operator-(const Matrix &);
+	bool isEqual(const Matrix &);
+	Matrix Mult(const Matrix &);
+	Matrix Add(const Matrix &);
+	Matrix Sub(const Matrix &);
   Point transform(Point &);
 };
 
