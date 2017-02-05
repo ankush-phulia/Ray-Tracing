@@ -1,5 +1,5 @@
 #include <iostream>
-#include "Vector.h"
+#include "Ray.h"
 
 using namespace std;
 
