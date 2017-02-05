@@ -3,7 +3,6 @@
 
 #include "Pixel.h"
 #include "Ray.h"
-#include <math.h>
 
 class Image {
 

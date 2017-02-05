@@ -1,6 +1,8 @@
 #ifndef Point_H
 #define Point_H
 
+#include <math.h>
+
 class Point {
 
 public:

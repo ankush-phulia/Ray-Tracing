@@ -1,5 +1,9 @@
 #include "Ray.h"
 
+Ray::Ray(){
+	origin = Point(0, 0, 0);
+}
+
 Ray::Ray(float x, float y, float z){
 	origin = Point(0, 0, 0);
 	direction = Point(x, y, z);

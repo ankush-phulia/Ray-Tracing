@@ -7,5 +7,6 @@ Point Point::addSub(Point v2, bool op) {
 		v.y += v2.y;
 		v.z += v.z;
 	}
+	return v;
 }
 

@@ -1,11 +1,12 @@
-#include <iostream>
-#include "Ray.h"
+#include "Scene.h"
+#include "Image.h"
 
-using namespace std;
+int main() {		
+	
+	string infile = "sample_input.txt";
+	Scene scene(infile);
+	scene.printScene();
 
-int main() {	
-	
-	
 	int done;
 	cin >> done;
 	while (done != 0);
