@@ -2,6 +2,8 @@
 #define Scene_H
 
 #include "Ray.h"
+#include "Camera.h"
+#include "Image.h"
 #include <vector>
 #include <string>
 #include <iostream>
@@ -10,30 +12,60 @@
 
 using namespace std;
 
-enum objectType {
-	Sphere = 0, Triangle = 1
-};
-
-struct object {
-	objectType type;
+struct sphere {
 	Point center;
-	float extent;
+	Pixel color;
+	float ka, kd, ks, krg, ktg, mu;
+	float radius;
 
-	object() {
-		type = Sphere;
+	sphere() {
 		center = Point(0.0f, 0.0f, 0.0f);
-		extent = 0;
+		radius = 0;
 	}
 
-	object(int type, float x, float y, float z, float ext) {
+	sphere(float x, float y, float z, float r) {
 		center = Point(x, y, z);
-		extent = ext;
-		if (type == 0) {
-			type = Sphere;			
-		}
-		else {
-			type = Triangle;
-		}
+		radius = r;
+	}
+
+	sphere(float x, float y, float z, float r, float red, float g, float b, float ka1, float kd1, float ks1, float krg1, float ktg1, float mu1) {
+		center = Point(x, y, z);
+		radius = r;
+		color.colorPixel(red, g, b);
+		ka = ka1;
+		ks = ks1;
+		kd = kd1;
+		krg = krg1;
+		ktg = ktg1;
+		mu = mu1;
+	}
+};
+
+struct triangle {
+	Point v1,v2,v3;
+	Pixel color;
+	float ka, kd, ks, krg, ktg, mu;
+
+	triangle() {
+	}
+
+	triangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3) {
+		v1 = Point(x1, y1, z1);
+		v2 = Point(x2, y2, z2);
+		v3 = Point(x3, y3, z3);
+	}
+
+	triangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float r, float g, float b, float ka1, float kd1, float ks1, float krg1, float ktg1, float mu1) {
+		v1 = Point(x1, y1, z1);
+		v2 = Point(x2, y2, z2);
+		v3 = Point(x3, y3, z3);
+		color.colorPixel(r, g, b);
+		ka = ka1;
+		ks = ks1;
+		kd = kd1;
+		krg = krg1;
+		ktg = ktg1;
+		mu = mu1;
 	}
 };
 
@@ -55,9 +87,14 @@ struct light_source {
 class Scene {
 
 public:
-	vector<object> objects;
+	
+	Camera Camera;
+	Point VCSOrigin;
+	Image display; //location of the display
 	vector<light_source> light_sources;
-	Ray Camera;
+	float ambient_light, bgr, bgg, bgb;
+	vector<sphere> Spheres;
+	vector<triangle> Triangles;
 
 	Scene();
 	Scene(string s);

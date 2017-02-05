@@ -16,10 +16,10 @@ public:
 	Ray(Point &ori, Point &dir);
 
 	inline void setOrigin(float x, float y, float z) {
-		origin = Point(x, y, z);
+		origin.set(x, y, z);
 	}
 	inline void setDirection(float x, float y, float z) {
-		direction = Point(x, y, z);
+		direction.set(x, y, z);
 	}
 
 };

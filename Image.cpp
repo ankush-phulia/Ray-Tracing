@@ -1,8 +1,11 @@
 #include "Image.h"
 
+Image::Image(){
+}
+
 Image::Image(float x, float y, float z, float xc, float yc, float zc, float Xdim, float Ydim){
-	center = Point(xc, yc, zc);
-	bottom_left_corner = Point(x, y, z);
+	center.set(xc, yc, zc);
+	bottom_left_corner.set(x, y, z);
 	dimX = Xdim;
 	dimY = Ydim;
 	grid = new Pixel*[floor(dimX)];

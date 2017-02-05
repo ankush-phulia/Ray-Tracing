@@ -20,6 +20,10 @@ public:
 		x(a), y(b), z(c), w(d) {
 	}
 
+	void set(float a, float b, float c) {
+		x = a; y = b; z = c;
+	}
+
 	inline bool operator==(const Point & v2) {
 		return ((v2.x == x) && (v2.y == y) && (v2.z == z) && (v2.w == w));
 	}
@@ -36,8 +40,8 @@ public:
 		return (x*v2.x + y*v2.y + z*v2.z);
 	}
 
-	Point operator+(const Vector &v2);
-	Point operator-(const Vector &v2);
+	Point operator+(const Point &v2);
+	Point operator-(const Point &v2);
 };
 
 
