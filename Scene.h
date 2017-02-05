@@ -4,6 +4,7 @@
 #include "Ray.h"
 #include "Camera.h"
 #include "Image.h"
+#include "Matrix.h"
 #include <vector>
 #include <string>
 #include <iostream>

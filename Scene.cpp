@@ -45,7 +45,7 @@ Scene::Scene(string s){
 				f_in >> a >> b >> c >> d;
 				display.dimX = b - a;
 				display.dimY = c - d;
-				display.bottom_left_corner.set(-dimX/2,-dimY/2,0.0f);
+				display.bottom_left_corner.set(-display.dimX/2,-display.dimY/2,0.0f);
 			}
 			else if (buffer == "Light-sources") {
 				f_in >> a >> b >> c >> d;
@@ -172,16 +172,16 @@ void Scene::printScene(){
 	Point eyeinWCS = VCStoWCS.transform(camera.origin) + VCSOrigin;
 	Point x = display.bottom_left_corner;
 	Point direction;
-	for(int i; i<floor(display.dimX); i++)
-	{   for(int j; j<floor(display.dimY); j++)
-			{	direction = x - camera.origin;
-				direction = VCStoWCS.transform(direction);
-				Ray R = Ray(eyeinWCS,direction);
-				Pixel p = recursiveRayTrace(R);
-				display.grid[i][j] = p;
-				x = x + Point(0.0,1.0,0.0);
-			}
-			x = x + Point(1.0,0.0,0.0);
+	for(int i = 0; i< floor(display.dimX); i++){
+		for(int j = 0; j< floor(display.dimY); j++){
+			direction = x - camera.origin;
+			direction = VCStoWCS.transform(direction);
+			Ray R = Ray(eyeinWCS,direction);
+			Pixel p; //= recursiveRayTrace(R);
+			display.grid[i][j] = p;
+			x = x + Point(0.0,1.0,0.0);
+		}
+		x = x + Point(1.0,0.0,0.0);
 	}
 	//cout << objects.size() << endl;
 }

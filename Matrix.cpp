@@ -1,8 +1,8 @@
 #include "Matrix.h"
 
 Matrix::Matrix(void){                //identity matrix
-	for (int i; i < 4; i++) {
-		for (int j; j < 4; j++) {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
 			if (i == j) {
 				M[i][j] = 1.0f;
 			}
@@ -14,8 +14,8 @@ Matrix::Matrix(void){                //identity matrix
 }
 
 Matrix::Matrix(float m[][4]){
-	for (int i; i < 4; i++) {
-		for (int j; j < 4; j++) {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
 			M[i][j] = m[i][j];
 		}
 	}
@@ -35,16 +35,16 @@ Point Matrix::transform(Point &P){
 }
 
 void Matrix::Scale(float factor){
-	for (int i; i < 4; i++) {
-		for (int j; j < 4; j++) {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
 			M[i][j] *= factor;
 		}
 	}
 }
 
 bool Matrix::operator==(const Matrix &m2){
-	for (int i; i < 4; i++) {
-		for (int j; j < 4; j++) {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
 			if (M[i][j] != m2.M[i][j]) {
 				return false;
 			}
@@ -56,10 +56,10 @@ bool Matrix::operator==(const Matrix &m2){
 Matrix Matrix::operator*(const Matrix &m2){
 	Matrix Mat(M);
 	float s;
-	for(int i; i<4; i++){
-		for (int j; j < 4; j++) {
+	for(int i = 0; i<4; i++){
+		for (int j = 0; j < 4; j++) {
 			s = 0.0f;
-			for (int k; k < 4; k++) {
+			for (int k = 0; k < 4; k++) {
 				s += M[i][k] * m2.M[k][j];
 			}
 			Mat.M[i][j] = s;
@@ -70,8 +70,8 @@ Matrix Matrix::operator*(const Matrix &m2){
 
 Matrix Matrix::operator+(const Matrix &m2){
 	Matrix Mat(M);
-	for (int i; i < 4; i++) {
-		for (int j; j < 4; j++) {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
 			Mat.M[i][j] += m2.M[i][j];
 		}
 	}
@@ -80,8 +80,8 @@ Matrix Matrix::operator+(const Matrix &m2){
 
 Matrix Matrix::operator-(const Matrix &m2){
   Matrix Mat(M);
-  for (int i; i < 4; i++) {
-	  for (int j; j < 4; j++) {
+  for (int i = 0; i < 4; i++) {
+	  for (int j = 0; j < 4; j++) {
 		  Mat.M[i][j] -= m2.M[i][j];
 	  }
   }
