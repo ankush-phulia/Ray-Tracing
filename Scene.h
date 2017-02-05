@@ -87,9 +87,10 @@ struct light_source {
 class Scene {
 
 public:
-	
-	Camera Camera;
+
+	Camera camera;
 	Point VCSOrigin;
+	Matrix VCStoWCS;
 	Image display; //location of the display
 	vector<light_source> light_sources;
 	float ambient_light, bgr, bgg, bgb;
