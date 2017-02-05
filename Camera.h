@@ -3,6 +3,6 @@
 
 class Camera {
 public:
-	 float x, y, z;         // position of camera
-   float dx, dy, ds;      // direction of camera
+	 float x, y, z;         /// position of camera
+   float dx, dy, ds;      /// direction of camera
 }
