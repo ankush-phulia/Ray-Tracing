@@ -32,6 +32,15 @@ public:
 		return sqrt(x*x + y*y + z*z);
 	}
 
+	inline void normalise() {
+		float m = Magnitude();
+		x /= m; y /= m; z /= m;
+	}
+
+	inline float sum() {
+		return x + y + z;
+	}
+
 	inline void Scale(float factor) {
 		x *= factor; y *= factor; z *= factor;
 	}
@@ -39,9 +48,11 @@ public:
 	inline float operator*(const Point &v2) {
 		return (x*v2.x + y*v2.y + z*v2.z);
 	}
-
+	
 	Point operator+(const Point &v2);
 	Point operator-(const Point &v2);
+	Point operator^(const Point &v2); //cross product
+	
 };
 
 

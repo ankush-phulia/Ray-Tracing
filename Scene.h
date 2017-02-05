@@ -99,6 +99,8 @@ public:
 	Scene();
 	Scene(string s);
 
+	bool RaySphereIntersect(Ray &ray, sphere &sphere, Point &intersection);
+	bool RayTriangleIntersect(Ray &ray, triangle &triangle, Point &intersection);
 	void printScene();
 };
 

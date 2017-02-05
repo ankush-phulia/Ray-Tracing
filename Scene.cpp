@@ -62,6 +62,92 @@ Scene::Scene(string s){
 	}
 }
 
+bool existRoot(const float &a, const float &b, const float &c, float &x0, float &x1) {
+	float discr = b * b - 4 * a * c;
+	if (discr < 0) {
+		return false;
+	}
+	else if (discr == 0) {
+		x0 = x1 = -0.5 * b / a;
+	}
+	else {
+		float q = (b > 0) ?
+			-0.5 * (b + sqrt(discr)) :
+			-0.5 * (b - sqrt(discr));
+		x0 = q / a;
+		x1 = c / q;
+	}
+	if (x0 > x1)
+		swap(x0, x1);
+	return true;
+}
+
+bool Scene::RaySphereIntersect(Ray & ray, sphere & sphere, Point &intersection){
+	float a, b, c, d, t1, t2;
+	Point temp = ray.origin - sphere.center;
+	Point tmpdir = ray.direction;
+	tmpdir.normalise();
+	
+	a = (tmpdir*tmpdir);
+	b = 2 * (tmpdir * temp);
+	c = temp*temp - sphere.radius*sphere.radius;
+	
+	if (!existRoot(a, b, c, t1, t2)) {
+		return false;
+	}
+	else {
+		if (t1 > t2) {
+			swap(t1, t2);
+		}
+		if (t1 < 0) {
+			if (t2 < 0) {
+				return false;
+			}
+			else {
+				tmpdir.Scale(t2);
+				intersection = (ray.origin + tmpdir);
+			}
+		}
+		else {
+			tmpdir.Scale(t1);
+			intersection = (ray.origin + tmpdir);
+		}
+	}
+	return true;
+}
+
+bool Scene::RayTriangleIntersect(Ray & ray, triangle & triangle, Point &intersection){
+	Point e1, e2, h, s, q, tmpdir;
+	float a, f, u, v;
+	tmpdir.normalise();
+
+	e1 = triangle.v2 - triangle.v1;
+	e2 = triangle.v3 - triangle.v1;
+	h = ray.direction ^ e2;
+	a = e1 * h;
+	f = 1.0f / a;
+
+	s = ray.origin - triangle.v1;
+	u = (s * h) * f;
+	if (u < 0.0 || u > 1.0) {
+		return false;
+	}
+
+	q = s ^ triangle.v2;
+	v = (ray.direction * q) * f;
+	if (v < 0.0 || v > 1.0) {
+		return false;
+	}
+
+	float t = (triangle.v3 * q) * f;
+	if (t > 0) {
+		tmpdir.Scale(t);
+		intersection = ray.origin + tmpdir;
+		return true;
+	}
+	return false;
+}
+
 void Scene::printScene(){
 	cout << light_sources.size() << endl;
 	//cout << objects.size() << endl;
