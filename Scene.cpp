@@ -307,6 +307,7 @@ void Scene::writeImage() {
 			display.grid[i][j] = recursiveRayTrace(R, 1.0, true);
 			x = x + Point(0.0, 1.0/factor2, 0.0);
 		}
+		x.y = display.bottom_left_corner.y;
 		x = x + Point(1.0/factor1, 0.0, 0.0);
 	}
 }
