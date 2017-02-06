@@ -1,5 +1,5 @@
-#ifndef Point_H
-#define Point_H
+#ifndef POINT_H
+#define POINT_H
 
 #include <math.h>
 #include <iostream>
@@ -53,7 +53,7 @@ public:
 	inline float operator*(const Point &v2) {
 		return (x*v2.x + y*v2.y + z*v2.z);
 	}
-	
+
 	inline void printPoint() {
 		std::cout << x << " " << y << " " << z << std::endl;
 	}
@@ -61,7 +61,7 @@ public:
 	Point operator+(const Point &v2);
 	Point operator-(const Point &v2);
 	Point operator^(const Point &v2); //cross product
-	
+
 };
 
 #endif

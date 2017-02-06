@@ -1,6 +1,6 @@
 #include "Scene.h"
 #include "Image.h"
-
+using namespace std;
 int main() {
 
 	Point p0(0, 0, 0);
@@ -12,11 +12,11 @@ int main() {
 	Point p6(0, 1, 1);
 	Point p7(1, 1, 1);
 
-	p1 = p1^p2;
+	p1 = p1 + p2;
 	p1.printPoint();
 	cout << p3*p4 << endl;
 
-	Ray r1(0, 0, 0, 1, 0, 0);
+	Ray r1(0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f);
 	Ray r2(1,1,1, 0,0,-1);
 	r1.printRay();
 	r2.printRay();

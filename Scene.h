@@ -12,7 +12,8 @@
 
 using namespace std;
 
-struct sphere {
+class sphere {
+public:
 	Point center;
 	Pixel color;
 	float ka, kd, ks, krg, ktg, mu, n;
@@ -42,7 +43,8 @@ struct sphere {
 	}
 };
 
-struct triangle {
+class triangle {
+public:
 	Point v1,v2,v3;
 	Pixel color;
 	float ka, kd, ks, krg, ktg, mu, n;
@@ -71,7 +73,8 @@ struct triangle {
 	}
 };
 
-struct light_source {
+class light_source {
+public:
 	Point location;
 	float intensity;
 
@@ -100,7 +103,7 @@ public:
 	vector<triangle> Triangles;
 
 	Scene();
-	Scene(string s);
+	Scene(char *);
 
 	bool existRoot(const float &a, const float &b, const float &c, float &x0, float &x1);
 	bool RaySphereIntersect(Ray &ray, sphere &sphere, float &t, Point &intersection);

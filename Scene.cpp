@@ -3,11 +3,11 @@
 Scene::Scene(){
 }
 
-Scene::Scene(string s){
+Scene::Scene(char* s){
 	ifstream f_in;
 	f_in.open(s);
 	while (f_in.is_open()) {
-		string buffer;
+		char buffer[20];
 		float a, b, c, d, n, r, g, bl, ka, kd, ks, krg, ktg, mu;
 		while (f_in >> buffer) {
 			if (buffer == "Camera") {
@@ -266,17 +266,17 @@ Pixel Scene::recursiveRayTrace(Ray &ray, float refrac_index, bool recurse){
 		R = R - tmpdir;
 		R.normalise();
 		Ray nRay = Ray (minInt,R);
-		Pixel Precref = recursiveRayTrace(nRay, 1.0f, true);
+		//Pixel Precref = recursiveRayTrace(nRay, 1.0f, true);
 		if(type==0)
 		{	p = Spheres[pos].color;
-			Precref.Scale(Spheres[pos].krg);
+			//Precref.Scale(Spheres[pos].krg);
 		}
 		else
 		{	p = Triangles[pos].color;
-			Precref.Scale(Triangles[pos].krg);
+			//Precref.Scale(Triangles[pos].krg);
 		}
 		p.Scale(intense);
-		p = p + Precref;
+		//p = p + Precref;
 	}
 	else if (!recurse && minT > 0) {
 		p.colorPixel(1.0, 1.0, 1.0);

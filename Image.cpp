@@ -1,4 +1,6 @@
 #include "Image.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 Image::Image(){
 	center.set(0, 0, 0);
@@ -6,9 +8,9 @@ Image::Image(){
 	dimX = 20;
 	dimY = 20;
 	bg = Pixel();
-	grid = new Pixel*[floor(dimX)*factor1];
+	grid = new Pixel*[(int)floor(dimX)*factor1];
 	for (int i = 0; i<floor(dimX)*factor1; i++) {
-		grid[i] = new Pixel[floor(dimY)*factor2];
+		grid[i] = new Pixel[(int)floor(dimY)*factor2];
 	}
 }
 
@@ -18,9 +20,9 @@ Image::Image(float x, float y, float z, float xc, float yc, float zc, float Xdim
 	dimX = Xdim;
 	dimY = Ydim;
 	bg = Pixel();
-	grid = new Pixel*[floor(dimX)*factor1];
+	grid = new Pixel*[(int)floor(dimX)*factor1];
 	for (int i = 0; i<floor(dimX)*factor1; i++) {
-		grid[i] = new Pixel[floor(dimY)*factor2];
+		grid[i] = new Pixel[(int)floor(dimY)*factor2];
 	}
 }
 
