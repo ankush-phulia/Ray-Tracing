@@ -8,7 +8,7 @@ Scene::Scene(string s){
 	f_in.open(s);
 	while (f_in.is_open()) {
 		string buffer;
-		float a, b, c, d, n, r, g, bl, ka, kd, ks, krg, ktg, mu;
+		float a, b, c, d, n, r, g, bl, ka, kd, ks, krg, ktg, mu, nn;
 		while (f_in >> buffer) {
 			if (buffer == "Camera") {
 				f_in >> a >> b >> c;
@@ -47,7 +47,7 @@ Scene::Scene(string s){
 				display.dimY = c - d;
 				display.bottom_left_corner.set(-display.dimX/2,-display.dimY/2,0.0);
 			}
-			else if (buffer == "Light-sources") {
+			else if (buffer == "Light") {
 				f_in >> a >> b >> c >> d;
 				ambient_light = a;
 				bgr = b;
@@ -63,19 +63,20 @@ Scene::Scene(string s){
 				}
 			}
 			else if (buffer == "Spheres") {
-				f_in >> n;
+				f_in >> n;				
 				Spheres.resize(n);
 				for (int i = 0; i < n; i++) {
-					f_in >> a >> b >> c >> d >> r >> g >> bl >> ka >> kd >> ks >> krg >> ktg >> mu >> n;
-					Spheres[i] = (sphere(a, b, c, d, r, g, bl, ka, kd, ks, krg, ktg, mu, n));
+					f_in >> a >> b >> c >> d >> r >> g >> bl >> ka >> kd >> ks >> krg >> ktg >> mu >> nn;
+					Spheres[i].set(a, b, c, d, r, g, bl, ka, kd, ks, krg, ktg, mu, nn);
 				}
 			}
 			else if (buffer == "Triangles") {
 				float a1, b1, c1, a2, b2, c2;
 				f_in >> n;
+				Triangles.resize(n);
 				for (int i = 0; i < n; i++) {
-					f_in >> a >> b >> c >> a1 >> b1 >> c1 >> a2 >> b2 >> c2 >> r >> g >> bl >> ka >> kd >> ks >> krg >> ktg >> mu >> n;
-					Triangles.push_back(triangle(a,b,c,a1,b1,c1,a2,b2,c2,r,g,bl, ka, kd, ks, krg, ktg, mu, n));
+					f_in >> a >> b >> c >> a1 >> b1 >> c1 >> a2 >> b2 >> c2 >> r >> g >> bl >> ka >> kd >> ks >> krg >> ktg >> mu >> nn;
+					Triangles[i].set(a,b,c,a1,b1,c1,a2,b2,c2,r,g,bl, ka, kd, ks, krg, ktg, mu, nn);
 				}
 			}
 		}
@@ -261,18 +262,18 @@ Pixel Scene::recursiveRayTrace(Ray &ray, float refrac_index, bool recurse){
 		Point tmpdir = ray.direction;
 		tmpdir.Scale(-1);
 
-		point R = normal;
+		Point R = normal;
 		R.Scale(2*(tmpdir * normal));
 		R = R - tmpdir;
 		R.normalise();
 		Ray nRay = Ray (minInt,R);
 		Pixel Precref = recursiveRayTrace(nRay, 1.0f, true);
-		if(type==0)
-		{	p = Spheres[pos].color;
+		if(type==0){
+			p = Spheres[pos].color;
 			Precref.Scale(Spheres[pos].krg);
 		}
-		else
-		{	p = Triangles[pos].color;
+		else{	
+			p = Triangles[pos].color;
 			Precref.Scale(Triangles[pos].krg);
 		}
 		p.Scale(intense);
@@ -300,4 +301,8 @@ void Scene::writeImage() {
 		}
 		x = x + Point(1.0/factor1, 0.0, 0.0);
 	}
+}
+
+void Scene::printImage() {
+	display.bitmap(display.dimX*factor1, display.dimY*factor2, display.grid);
 }

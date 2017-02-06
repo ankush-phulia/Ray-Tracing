@@ -88,7 +88,7 @@ void Image::bitmap(int width, int height, Pixel** grid) {
 
 	FILE *file = fopen("out.bmp", "wb");
 	if (!file) {
-		printf("Could not write file\n");
+		std::cout << "Could not write file\n";
 		return;
 	}
 
