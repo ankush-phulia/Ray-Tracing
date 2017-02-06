@@ -103,7 +103,7 @@ public:
 	bool existRoot(const float &a, const float &b, const float &c, float &x0, float &x1);
 	bool RaySphereIntersect(Ray &ray, sphere &sphere, float t, Point &intersection);
 	bool RayTriangleIntersect(Ray &ray, triangle &triangle, float t, Point &intersection);
-	Pixel recursiveRayTrace(Ray &ray, float refractive_index);
+	Pixel recursiveRayTrace(Ray &ray, float refractive_index, bool recurse);
 	void printScene();
 };
 
