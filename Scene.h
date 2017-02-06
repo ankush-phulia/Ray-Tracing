@@ -15,7 +15,7 @@ using namespace std;
 struct sphere {
 	Point center;
 	Pixel color;
-	float ka, kd, ks, krg, ktg, mu;
+	float ka, kd, ks, krg, ktg, mu, n;
 	float radius;
 	float n;				// lusture
 
@@ -68,7 +68,11 @@ struct triangle {
 		krg = krg1;
 		ktg = ktg1;
 		mu = mu1;
+<<<<<<< HEAD
 		n= n1;
+=======
+		n = n1;
+>>>>>>> 215ff661939177e96cfd9e83766f116015d89db4
 	}
 };
 
@@ -104,10 +108,10 @@ public:
 	Scene(string s);
 
 	bool existRoot(const float &a, const float &b, const float &c, float &x0, float &x1);
-	bool RaySphereIntersect(Ray &ray, sphere &sphere, float t, Point &intersection);
-	bool RayTriangleIntersect(Ray &ray, triangle &triangle, float t, Point &intersection);
+	bool RaySphereIntersect(Ray &ray, sphere &sphere, float &t, Point &intersection);
+	bool RayTriangleIntersect(Ray &ray, triangle &triangle, float &t, Point &intersection);
 	Pixel recursiveRayTrace(Ray &ray, float refractive_index, bool recurse);
-	void printScene();
+	void writeImage();
 };
 
 

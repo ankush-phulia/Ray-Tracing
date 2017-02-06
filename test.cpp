@@ -36,6 +36,11 @@ int main() {
 	cout << s.RayTriangleIntersect(r2, tri, t, int2) << " ";
 	int2.printPoint();
 
+	Image i = s.display;
+	i.bg.colorPixel(255, 255, 255);
+	i.setBackground();
+	i.bitmap(20 * 20, 20 * 20, i.grid);
+
 	int done;
 	cin >> done;
 	while (done != 0);
