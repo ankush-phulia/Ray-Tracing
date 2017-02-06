@@ -43,7 +43,7 @@ int main() {
 	i.bitmap(20 * 20, 20 * 20, i.grid);*/
 
 	Scene s("sample_input.txt");
-	//s.writeImage();
+	s.writeImage();
 	s.printImage();
 
 	int done;

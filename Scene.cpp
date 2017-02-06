@@ -286,17 +286,20 @@ Pixel Scene::recursiveRayTrace(Ray &ray, float refrac_index, bool recurse){
 }
 
 void Scene::writeImage() {
-	cout << light_sources.size() << endl;
+	//VCStoWCS.print();
 	Point eyeinWCS = VCStoWCS.transform(camera.origin) + VCSOrigin;
+	//eyeinWCS.printPoint();
 	Point x = display.bottom_left_corner;
 	Point direction;
+	//std::cout << floor(display.dimX)*factor1 << " " << floor(display.dimY)*factor2;
 	for (int i = 0; i < floor(display.dimX)*factor1; i++) {
 		for (int j = 0; j < floor(display.dimY)*factor2; j++) {
 			direction = x - camera.origin;
 			direction = VCStoWCS.transform(direction);
-			direction.normalise();
+			//direction.printPoint();
+			direction.normalise();			
 			Ray R(eyeinWCS, direction);
-			display.grid[i][j] = recursiveRayTrace(R, 1.0, true);
+			//display.grid[i][j] = recursiveRayTrace(R, 1.0, true);
 			x = x + Point(0.0, 1.0/factor2, 0.0);
 		}
 		x = x + Point(1.0/factor1, 0.0, 0.0);
