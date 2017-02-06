@@ -8,7 +8,8 @@ Scene::Scene(char* s){
 	f_in.open(s);
 	while (f_in.is_open()) {
 		char buffer[20];
-		float a, b, c, d, n, r, g, bl, ka, kd, ks, krg, ktg, mu;
+		string buffer;
+		float a, b, c, d, n, r, g, bl, ka, kd, ks, krg, ktg, mu, nn;
 		while (f_in >> buffer) {
 			if (buffer == "Camera") {
 				f_in >> a >> b >> c;
@@ -47,7 +48,7 @@ Scene::Scene(char* s){
 				display.dimY = c - d;
 				display.bottom_left_corner.set(-display.dimX/2,-display.dimY/2,0.0);
 			}
-			else if (buffer == "Light-sources") {
+			else if (buffer == "Light") {
 				f_in >> a >> b >> c >> d;
 				ambient_light = a;
 				bgr = b;
@@ -66,16 +67,17 @@ Scene::Scene(char* s){
 				f_in >> n;
 				Spheres.resize(n);
 				for (int i = 0; i < n; i++) {
-					f_in >> a >> b >> c >> d >> r >> g >> bl >> ka >> kd >> ks >> krg >> ktg >> mu >> n;
-					Spheres[i] = (sphere(a, b, c, d, r, g, bl, ka, kd, ks, krg, ktg, mu, n));
+					f_in >> a >> b >> c >> d >> r >> g >> bl >> ka >> kd >> ks >> krg >> ktg >> mu >> nn;
+					Spheres[i].set(a, b, c, d, r, g, bl, ka, kd, ks, krg, ktg, mu, nn);
 				}
 			}
 			else if (buffer == "Triangles") {
 				float a1, b1, c1, a2, b2, c2;
 				f_in >> n;
+				Triangles.resize(n);
 				for (int i = 0; i < n; i++) {
-					f_in >> a >> b >> c >> a1 >> b1 >> c1 >> a2 >> b2 >> c2 >> r >> g >> bl >> ka >> kd >> ks >> krg >> ktg >> mu >> n;
-					Triangles.push_back(triangle(a,b,c,a1,b1,c1,a2,b2,c2,r,g,bl, ka, kd, ks, krg, ktg, mu, n));
+					f_in >> a >> b >> c >> a1 >> b1 >> c1 >> a2 >> b2 >> c2 >> r >> g >> bl >> ka >> kd >> ks >> krg >> ktg >> mu >> nn;
+					Triangles[i].set(a,b,c,a1,b1,c1,a2,b2,c2,r,g,bl, ka, kd, ks, krg, ktg, mu, nn);
 				}
 			}
 		}
@@ -261,18 +263,18 @@ Pixel Scene::recursiveRayTrace(Ray &ray, float refrac_index, bool recurse){
 		Point tmpdir = ray.direction;
 		tmpdir.Scale(-1);
 
-		point R = normal;
+		Point R = normal;
 		R.Scale(2*(tmpdir * normal));
 		R = R - tmpdir;
 		R.normalise();
 		Ray nRay = Ray (minInt,R);
 		//Pixel Precref = recursiveRayTrace(nRay, 1.0f, true);
-		if(type==0)
-		{	p = Spheres[pos].color;
+		if(type==0){
+			p = Spheres[pos].color;
 			//Precref.Scale(Spheres[pos].krg);
 		}
-		else
-		{	p = Triangles[pos].color;
+		else{
+			p = Triangles[pos].color;
 			//Precref.Scale(Triangles[pos].krg);
 		}
 		p.Scale(intense);
@@ -285,19 +287,26 @@ Pixel Scene::recursiveRayTrace(Ray &ray, float refrac_index, bool recurse){
 }
 
 void Scene::writeImage() {
-	cout << light_sources.size() << endl;
+	//VCStoWCS.print();
 	Point eyeinWCS = VCStoWCS.transform(camera.origin) + VCSOrigin;
+	//eyeinWCS.printPoint();
 	Point x = display.bottom_left_corner;
 	Point direction;
+	//std::cout << floor(display.dimX)*factor1 << " " << floor(display.dimY)*factor2;
 	for (int i = 0; i < floor(display.dimX)*factor1; i++) {
 		for (int j = 0; j < floor(display.dimY)*factor2; j++) {
 			direction = x - camera.origin;
 			direction = VCStoWCS.transform(direction);
+			//direction.printPoint();
 			direction.normalise();
 			Ray R(eyeinWCS, direction);
-			display.grid[i][j] = recursiveRayTrace(R, 1.0, true);
+			//display.grid[i][j] = recursiveRayTrace(R, 1.0, true);
 			x = x + Point(0.0, 1.0/factor2, 0.0);
 		}
 		x = x + Point(1.0/factor1, 0.0, 0.0);
 	}
+}
+
+void Scene::printImage() {
+	display.bitmap(display.dimX*factor1, display.dimY*factor2, display.grid);
 }

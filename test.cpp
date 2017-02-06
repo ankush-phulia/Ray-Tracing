@@ -3,7 +3,7 @@
 using namespace std;
 int main() {
 
-	Point p0(0, 0, 0);
+	/*Point p0(0, 0, 0);
 	Point p1(1, 0, 0);
 	Point p2(0, 1, 0);
 	Point p3(0, 0, 1);
@@ -40,7 +40,11 @@ int main() {
 	Image i = s.display;
 	i.bg.colorPixel(255, 255, 255);
 	i.setBackground();
-	i.bitmap(20 * 20, 20 * 20, i.grid);
+	i.bitmap(20 * 20, 20 * 20, i.grid);*/
+
+	Scene s("sample_input.txt");
+	s.writeImage();
+	s.printImage();
 
 	int done;
 	cin >> done;

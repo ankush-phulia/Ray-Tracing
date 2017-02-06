@@ -87,3 +87,12 @@ Matrix Matrix::operator-(const Matrix &m2){
   }
   return Mat;
 }
+
+void Matrix::print() {
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			std::cout << M[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}
+}
