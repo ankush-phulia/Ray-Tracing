@@ -196,7 +196,7 @@ Pixel Scene::recursiveRayTrace(Ray &ray, float refrac_index, bool recurse){
 				pos = i;
 				minInt = intersection;
 			}
-			ray.direction.printPoint();
+			//ray.direction.printPoint();
 		}
 	}
 	for (int i = 0; i < Triangles.size(); ++i) {
