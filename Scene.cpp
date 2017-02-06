@@ -64,16 +64,16 @@ Scene::Scene(string s){
 				f_in >> n;
 				Spheres.resize(n);
 				for (int i = 0; i < n; i++) {
-					f_in >> a >> b >> c >> d >> r >> g >> bl >> ka >> kd >> ks >> krg >> ktg >> mu;
-					Spheres[i] = (sphere(a, b, c, d, r, g, bl, ka, kd, ks, krg, ktg, mu));
+					f_in >> a >> b >> c >> d >> r >> g >> bl >> ka >> kd >> ks >> krg >> ktg >> mu >> n;
+					Spheres[i] = (sphere(a, b, c, d, r, g, bl, ka, kd, ks, krg, ktg, mu, n));
 				}
 			}
 			else if (buffer == "Triangles") {
 				float a1, b1, c1, a2, b2, c2;
 				f_in >> n;
 				for (int i = 0; i < n; i++) {
-					f_in >> a >> b >> c >> a1 >> b1 >> c1 >> a2 >> b2 >> c2 >> r >> g >> bl >> ka >> kd >> ks >> krg >> ktg >> mu;
-					Triangles.push_back(triangle(a,b,c,a1,b1,c1,a2,b2,c2,r,g,bl, ka, kd, ks, krg, ktg, mu));
+					f_in >> a >> b >> c >> a1 >> b1 >> c1 >> a2 >> b2 >> c2 >> r >> g >> bl >> ka >> kd >> ks >> krg >> ktg >> mu >> n;
+					Triangles.push_back(triangle(a,b,c,a1,b1,c1,a2,b2,c2,r,g,bl, ka, kd, ks, krg, ktg, mu, n));
 				}
 			}
 		}
@@ -213,6 +213,8 @@ Pixel Scene::recursiveRayTrace(Ray &ray, float refrac_index, bool recurse){
 		{	intense += Spheres[pos].ka*ambient_light;
 			normal = minInt - Spheres[pos].center;
 			normal.normalise();
+			if(ray.direction * normal > 0)
+				normal.Scale(-1);
 		}
 		else
 		{	intense += Triangles[pos].ka*ambient_light;
@@ -235,13 +237,13 @@ Pixel Scene::recursiveRayTrace(Ray &ray, float refrac_index, bool recurse){
 				{	intense += Spheres[pos].kd * light_sources[i].intensity * (tmpdir*normal);
 					Point H = tmpdir - ray.direction;
 					H.normalise();
-					intense += Spheres[pos].ks * light_sources[i].intensity * (H*normal);
+					intense += Spheres[pos].ks * light_sources[i].intensity * pow((H*normal),Spheres[pos].n);
 				}
 				else
 				{	intense += Triangles[pos].kd * light_sources[i].intensity * (tmpdir*normal);
 					Point H = tmpdir - ray.direction;
 					H.normalise();
-					intense += Spheres[pos].ks * light_sources[i].intensity * (H*normal);		
+					intense += Spheres[pos].ks * light_sources[i].intensity * pow((H*normal),Triangles[pos].n);
 				}
 			}
 		}
@@ -253,6 +255,25 @@ Pixel Scene::recursiveRayTrace(Ray &ray, float refrac_index, bool recurse){
 		{	p = Triangles[pos].color;
 			p.Scale(intense);
 		}
+		Point tmpdir = ray.direction;
+		tmpdir.Scale(-1);
+
+		point R = normal;
+		R.Scale(2*(tmpdir * normal));
+		R = R - tmpdir;
+		R.normalise();
+		Ray nRay = Ray (minInt,R);
+		Pixel Precref = recursiveRayTrace(nRay, 1.0f, true);
+		if(type==0)
+		{	p = Spheres[pos].color;
+			Precref.Scale(Spheres[pos].krg);
+		}
+		else
+		{	p = Triangles[pos].color;
+			Precref.Scale(Triangles[pos].krg);
+		}
+		p.Scale(intense);
+		p = p + Precref;
 	}
 	else if(!recurse && minT>0)
 			p.colorPixel(1.0f,1.0f,1.0f);

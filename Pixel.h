@@ -30,6 +30,15 @@ public:
 		b *= x;
 	}
 
+	Pixel operator+(const Pixel &v2){
+		Pixel v(r,g,b);
+		v.r += v2.r;
+		v.g += v2.g;
+		v.b += v2.b;
+		return v;
+	}
+
+
 };
 
 
