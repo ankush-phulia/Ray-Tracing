@@ -8,9 +8,9 @@ Image::Image(float x, float y, float z, float xc, float yc, float zc, float Xdim
 	bottom_left_corner.set(x, y, z);
 	dimX = Xdim;
 	dimY = Ydim;
-	grid = new Pixel*[floor(dimX)];
+	grid = new Pixel*[floor(dimX)*factor1];
 	for (int i = 0; i<floor(dimX); i++) {
-		grid[i] = new Pixel[floor(dimY)];
+		grid[i] = new Pixel[floor(dimY)*factor2];
 	}
 }
 

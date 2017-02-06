@@ -1,5 +1,7 @@
 #ifndef Image_H
 #define Image_H
+#define factor1 20
+#define factor2 20
 
 #include "Pixel.h"
 #include "Ray.h"
