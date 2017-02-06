@@ -152,10 +152,9 @@ bool Scene::RayTriangleIntersect(Ray & ray, triangle & triangle, float &t){
 		return false;
 	}
 
-	float t = (triangle.v3 * q) * f;
-	if (t > 0) {
-		tmpdir.Scale(t);
-		intersection = ray.origin + tmpdir;
+	float t1 = (triangle.v3 * q) * f;
+	if (t1 > 0) {
+		t = t1;
 		return true;
 	}
 	return false;
@@ -181,8 +180,13 @@ Pixel Scene::recursiveRayTrace(Ray &ray,float refrac_index) // medium in which r
 			}
 	}
 	if(minT>0)
-	{
-
+	{	Point tmpdir = ray.direction;
+		tmpdir.Scale(minT);
+		Point intersection = ray.origin + tmpdir;
+		Ray tolighsources;
+		for(int i = 0; i < light_sources.size(); ++i)
+		{	
+		}
 	}
 	return p;
 }
