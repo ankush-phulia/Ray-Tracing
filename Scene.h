@@ -103,6 +103,7 @@ public:
 
 	bool RaySphereIntersect(Ray &ray, sphere &sphere, Point &intersection);
 	bool RayTriangleIntersect(Ray &ray, triangle &triangle, Point &intersection);
+	Pixel recursiveRayTrace(Ray &ray);
 	void printScene();
 };
 
