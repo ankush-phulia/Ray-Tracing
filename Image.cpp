@@ -100,7 +100,7 @@ void Image::bitmap(int width, int height, Pixel** grid) {
 	fwrite(&bih, 1, sizeof(bih), file);
 
 	/*Write bitmap*/
-	for (int y = bih.biHeight - 1; y >= 0; y--) { /*Scanline loop backwards*/
+	for (int y = 0; y < bih.biHeight ; y++) { /*Scanline loop backwards*/
 		for (int x = 0; x < bih.biWidth; x++) { /*Column loop forwards*/
 												/*compute some pixel values*/
 			Pixel p = grid[x][y];
