@@ -6,8 +6,7 @@ Scene::Scene(const char* s){
 	ifstream f_in;
 	f_in.open(s);
 	while (f_in.is_open()) {
-		char buffer[20];
-
+		string buffer;
 		float a, b, c, d, n, r, g, bl, ka, kd, ks, krg, ktg, mu, nn;
 		while (f_in >> buffer) {
 			if (buffer == "Camera") {
@@ -175,9 +174,9 @@ bool Scene::RayTriangleIntersect(Ray & ray, triangle & triangle, float &t, Point
 	float t1 = (e2 * q) * f;
 	if (t1 > 0) {
 		t = t1;
-		tmpdir.printPoint();
+		//tmpdir.printPoint();
 		tmpdir.Scale(t);
-		tmpdir.printPoint();
+		//tmpdir.printPoint();
 		intersection = ray.origin + tmpdir;
 		return true;
 	}
@@ -197,6 +196,7 @@ Pixel Scene::recursiveRayTrace(Ray &ray, float refrac_index, bool recurse){
 				pos = i;
 				minInt = intersection;
 			}
+			ray.direction.printPoint();
 		}
 	}
 	for (int i = 0; i < Triangles.size(); ++i) {
@@ -296,12 +296,12 @@ void Scene::writeImage() {
 		for (int j = 0; j < floor(display.dimY)*factor2; j++) {
 			direction = x - camera.origin;
 			direction = VCStoWCS.transform(direction);
-			//direction.printPoint();
 			direction.normalise();
 			Ray R(eyeinWCS, direction);
-			//display.grid[i][j] = recursiveRayTrace(R, 1.0, true);
+			display.grid[i][j] = recursiveRayTrace(R, 1.0, true);
 			x = x + Point(0.0, 1.0/factor2, 0.0);
 		}
+		x.y = display.bottom_left_corner.y;
 		x = x + Point(1.0/factor1, 0.0, 0.0);
 	}
 }
