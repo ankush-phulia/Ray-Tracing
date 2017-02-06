@@ -16,8 +16,7 @@ struct sphere {
 	Point center;
 	Pixel color;
 	float ka, kd, ks, krg, ktg, mu, n;
-	float radius;
-	float n;				// lusture
+	float radius;			// lusture
 
 	sphere() {
 		center.set(0.0f, 0.0f, 0.0f);
@@ -68,11 +67,7 @@ struct triangle {
 		krg = krg1;
 		ktg = ktg1;
 		mu = mu1;
-<<<<<<< HEAD
-		n= n1;
-=======
 		n = n1;
->>>>>>> 215ff661939177e96cfd9e83766f116015d89db4
 	}
 };
 
