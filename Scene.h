@@ -29,6 +29,19 @@ public:
 		radius = r;
 	}
 
+	sphere(sphere &s)
+	{	center = s.center;
+		color = s.color;
+		ka = s.ka;
+		kd = s.kd;
+		ks = s.ks;
+		krg = s.krg;
+		ktg = s.ktg;
+		mu = s.mu;
+		n = s.n;
+		radius = s.radius;
+	}
+
 	void set(float x, float y, float z, float r, float red, float g, float b, float ka1, float kd1, float ks1, float krg1, float ktg1, float mu1, float n1) {
 		center.set(x, y, z);
 		radius = r;
@@ -56,6 +69,20 @@ public:
 		v1.set(x1, y1, z1);
 		v2.set(x2, y2, z2);
 		v3.set(x3, y3, z3);
+	}
+
+	triangle(triangle &s)
+	{	v1 = s.v1;
+		v2 = s.v2;
+		v3 = s.v3;
+		color = s.color;
+		ka = s.ka;
+		kd = s.kd;
+		ks = s.ks;
+		krg = s.krg;
+		ktg = s.ktg;
+		mu = s.mu;
+		n = s.n;
 	}
 
 	void set(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float r, float g, float b, float ka1, float kd1, float ks1, float krg1, float ktg1, float mu1, float n1) {
@@ -87,6 +114,10 @@ public:
 		location.set(x, y, z);
 		intensity = i;
 	}
+	light_source(light_source &l)
+	{	location = l.location;
+		intensity = l.intensity;
+	}
 };
 
 class Scene {
@@ -97,10 +128,11 @@ public:
 	Point VCSOrigin;
 	Matrix VCStoWCS;
 	Image display; //location of the display
-	vector<light_source> light_sources;
+	light_source light_sources[10];
 	float ambient_light, bgr, bgg, bgb;
-	vector<sphere> Spheres;
-	vector<triangle> Triangles;
+	sphere Spheres[10];
+	triangle Triangles[10];
+	int sn,tn,ln;
 
 	Scene();
 	Scene(const char *);
@@ -108,7 +140,7 @@ public:
 	bool existRoot(const float &a, const float &b, const float &c, float &x0, float &x1);
 	bool RaySphereIntersect(Ray &ray, sphere &sphere, float &t, Point &intersection);
 	bool RayTriangleIntersect(Ray &ray, triangle &triangle, float &t, Point &intersection);
-	Pixel recursiveRayTrace(Ray &ray, float refractive_index, bool recurse);
+	bool recursiveRayTrace(Ray &ray, float refractive_index, bool recurse, Pixel &);
 	void writeImage();
 	void printImage();
 };

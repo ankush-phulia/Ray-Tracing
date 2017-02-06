@@ -54,26 +54,26 @@ Scene::Scene(const char* s){
 				bgb = d;
 				display.bg.colorPixel(bgr, bgg, bgb);
 				display.setBackground();
-				f_in >> n;
-				light_sources.resize(n);
-				for (int i = 0; i < n; i++) {
+				f_in >> ln;
+				//light_sources.resize(n);
+				for (int i = 0; i < ln; i++) {
 					f_in >> a >> b >> c >> d;
 					light_sources[i] = (light_source(a, b, c, d));
 				}
 			}
 			else if (buffer == "Spheres") {
-				f_in >> n;
-				Spheres.resize(n);
-				for (int i = 0; i < n; i++) {
+				f_in >> sn;
+				//Spheres.resize(n);
+				for (int i = 0; i < sn; i++) {
 					f_in >> a >> b >> c >> d >> r >> g >> bl >> ka >> kd >> ks >> krg >> ktg >> mu >> nn;
 					Spheres[i].set(a, b, c, d, r, g, bl, ka, kd, ks, krg, ktg, mu, nn);
 				}
 			}
 			else if (buffer == "Triangles") {
 				float a1, b1, c1, a2, b2, c2;
-				f_in >> n;
-				Triangles.resize(n);
-				for (int i = 0; i < n; i++) {
+				f_in >> tn;
+				//Triangles.resize(n);
+				for (int i = 0; i < tn; i++) {
 					f_in >> a >> b >> c >> a1 >> b1 >> c1 >> a2 >> b2 >> c2 >> r >> g >> bl >> ka >> kd >> ks >> krg >> ktg >> mu >> nn;
 					Triangles[i].set(a,b,c,a1,b1,c1,a2,b2,c2,r,g,bl, ka, kd, ks, krg, ktg, mu, nn);
 				}
@@ -105,7 +105,8 @@ bool Scene::existRoot(const float &a, const float &b, const float &c, float &x0,
 
 bool Scene::RaySphereIntersect(Ray & ray, sphere & sphere, float &t, Point &intersection){
 	float a, b, c, t1, t2;
-	Point temp = ray.origin - sphere.center;
+	Point temp;
+	temp = ray.origin - sphere.center;
 	Point tmpdir(ray.direction);
 	//tmpdir.normalise();
 	//tmpdir.printPoint();
@@ -183,12 +184,12 @@ bool Scene::RayTriangleIntersect(Ray & ray, triangle & triangle, float &t, Point
 	return false;
 }
 
-Pixel Scene::recursiveRayTrace(Ray &ray, float refrac_index, bool recurse){
+bool Scene::recursiveRayTrace(Ray &ray, float refrac_index, bool recurse, Pixel &outp){
 	Pixel p;
 	Point intersection,minInt;
 	float t = 0, minT = 0;
 	int type, pos;
-	for (int i = 0; i < Spheres.size(); ++i) {
+	for (int i = 0; i < sn; ++i) {
 		if (RaySphereIntersect(ray, Spheres[i], t, intersection)) {
 			if (minT == 0 || minT > t) {
 				minT = t;
@@ -199,7 +200,7 @@ Pixel Scene::recursiveRayTrace(Ray &ray, float refrac_index, bool recurse){
 			ray.direction.printPoint();
 		}
 	}
-	for (int i = 0; i < Triangles.size(); ++i) {
+	for (int i = 0; i < tn; ++i) {
 		if (RayTriangleIntersect(ray, Triangles[i], t, intersection)) {
 			if (minT == 0 || minT > t) {
 				minT = t;
@@ -221,7 +222,8 @@ Pixel Scene::recursiveRayTrace(Ray &ray, float refrac_index, bool recurse){
 		}
 		else{
 			intense += Triangles[pos].ka*ambient_light;
-			Point e1 = Triangles[pos].v1 - Triangles[pos].v2;
+			Point e1;
+			e1 = Triangles[pos].v1 - Triangles[pos].v2;
 			e1.normalise();
 			normal = Triangles[pos].v3 - Triangles[pos].v2;
 			normal.normalise();
@@ -231,21 +233,24 @@ Pixel Scene::recursiveRayTrace(Ray &ray, float refrac_index, bool recurse){
 			}
 			normal.normalise();
 		}
-		for (int i = 0; i < light_sources.size(); ++i){
-			Point tmpdir = light_sources[i].location - minInt;
+		for (int i = 0; i < ln; ++i){
+			Point tmpdir;
+			tmpdir = light_sources[i].location - minInt;
 			tmpdir.normalise();
-			Ray tolighsources = Ray(minInt,tmpdir);
-			Pixel pp = recursiveRayTrace(tolighsources,1.0,false);
-			if(pp.r != 1.0 && pp.g != 1.0 && pp.b != 1.0){     // if no obstacle between light source and intersection point
+			Ray tolighsources(minInt,tmpdir);
+			Pixel pp;
+			if(recursiveRayTrace(tolighsources,1.0,false,pp)){     // if no obstacle between light source and intersection point
 				if(type == 0){
 				intense += Spheres[pos].kd * light_sources[i].intensity * (tmpdir*normal);
-					Point H = tmpdir - ray.direction;
+					Point H;
+					H = tmpdir - ray.direction;
 					H.normalise();
 					intense += Spheres[pos].ks * light_sources[i].intensity * pow((H*normal),Spheres[pos].n);
 				}
 				else{
 					intense += Triangles[pos].kd * light_sources[i].intensity * (tmpdir*normal);
-					Point H = tmpdir - ray.direction;
+					Point H;
+					H = tmpdir - ray.direction;
 					H.normalise();
 					intense += Spheres[pos].ks * light_sources[i].intensity * pow((H*normal),Triangles[pos].n);
 				}
@@ -266,7 +271,7 @@ Pixel Scene::recursiveRayTrace(Ray &ray, float refrac_index, bool recurse){
 		R.Scale(2*(tmpdir * normal));
 		R = R - tmpdir;
 		R.normalise();
-		Ray nRay = Ray (minInt,R);
+		Ray nRay(minInt,R);
 		//Pixel Precref = recursiveRayTrace(nRay, 1.0f, true);
 		if(type==0){
 			p = Spheres[pos].color;
@@ -278,16 +283,20 @@ Pixel Scene::recursiveRayTrace(Ray &ray, float refrac_index, bool recurse){
 		}
 		p.Scale(intense);
 		//p = p + Precref;
+		outp = p;
+		return true;
 	}
 	else if (!recurse && minT > 0) {
-		p.colorPixel(1.0, 1.0, 1.0);
+		outp.colorPixel(1.0, 1.0, 1.0);
+		return true;
 	}
-	return p;
+	return false;
 }
 
 void Scene::writeImage() {
 	//VCStoWCS.print();
-	Point eyeinWCS = VCStoWCS.transform(camera.origin) + VCSOrigin;
+	Point eyeinWCS;
+	eyeinWCS = VCStoWCS.transform(camera.origin) + VCSOrigin;
 	//eyeinWCS.printPoint();
 	Point x = display.bottom_left_corner;
 	Point direction;
@@ -298,7 +307,9 @@ void Scene::writeImage() {
 			direction = VCStoWCS.transform(direction);
 			direction.normalise();
 			Ray R(eyeinWCS, direction);
-			display.grid[i][j] = recursiveRayTrace(R, 1.0, true);
+			Pixel P;
+			if(recursiveRayTrace(R, 1.0, true,P))
+				display.grid[i][j] = P;
 			x = x + Point(0.0, 1.0/factor2, 0.0);
 		}
 		x.y = display.bottom_left_corner.y;
