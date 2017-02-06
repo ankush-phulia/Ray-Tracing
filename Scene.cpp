@@ -81,7 +81,7 @@ Scene::Scene(string s){
 	}
 }
 
-bool existRoot(const float &a, const float &b, const float &c, float &x0, float &x1) {
+bool Scene::existRoot(const float &a, const float &b, const float &c, float &x0, float &x1) {
 	float discr = b * b - 4 * a * c;
 	if (discr < 0) {
 		return false;
@@ -104,12 +104,15 @@ bool existRoot(const float &a, const float &b, const float &c, float &x0, float 
 bool Scene::RaySphereIntersect(Ray & ray, sphere & sphere, Point &intersection){
 	float a, b, c, d, t1, t2;
 	Point temp = ray.origin - sphere.center;
-	Point tmpdir = ray.direction;
-	tmpdir.normalise();
-	
-	a = (tmpdir*tmpdir);
+	Point tmpdir(ray.direction);
+	//tmpdir.normalise();
+	//tmpdir.printPoint();
+	a = (tmpdir * tmpdir);
+	//temp.printPoint();
 	b = 2 * (tmpdir * temp);
+	//temp.printPoint();
 	c = temp*temp - sphere.radius*sphere.radius;
+	//std::cout << a << " " << b << " " << c << " " << sphere.radius<<  std::endl;
 	
 	if (!existRoot(a, b, c, t1, t2)) {
 		return false;
@@ -136,31 +139,39 @@ bool Scene::RaySphereIntersect(Ray & ray, sphere & sphere, Point &intersection){
 }
 
 bool Scene::RayTriangleIntersect(Ray & ray, triangle & triangle, Point &intersection){
-	Point e1, e2, h, s, q, tmpdir;
-	float a, f, u, v;
-	tmpdir.normalise();
+	Point e1, e2, p, s, q;
+	Point tmpdir(ray.direction);
+	float a, f, u, v;	
+	//tmpdir.normalise();
 
 	e1 = triangle.v2 - triangle.v1;
 	e2 = triangle.v3 - triangle.v1;
-	h = ray.direction ^ e2;
-	a = e1 * h;
+	p = ray.direction ^ e2;
+	a = e1 * p;
+
+	if (a == 0) {
+		return false;
+	}
+
 	f = 1.0f / a;
 
 	s = ray.origin - triangle.v1;
-	u = (s * h) * f;
-	if (u < 0.0 || u > 1.0) {
+	u = (s * p) * f;
+	if (u < 0.0f || u > 1.0f) {
 		return false;
 	}
 
-	q = s ^ triangle.v2;
+	q = s ^ e1;
 	v = (ray.direction * q) * f;
-	if (v < 0.0 || v > 1.0) {
+	if (v < 0.0f || u+v > 1.0f) {
 		return false;
 	}
 
-	float t = (triangle.v3 * q) * f;
+	float t = (e2 * q) * f;
 	if (t > 0) {
+		tmpdir.printPoint();
 		tmpdir.Scale(t);
+		tmpdir.printPoint();
 		intersection = ray.origin + tmpdir;
 		return true;
 	}

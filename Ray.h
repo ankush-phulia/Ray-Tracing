@@ -22,6 +22,11 @@ public:
 		direction.set(x, y, z);
 	}
 
+	inline void printRay() {
+		std::cout << "Origin " << origin.x << " " << origin.y << " " << origin.z << std::endl;
+		std::cout << "Direction " << direction.x << " " << direction.y << " " << direction.z << std::endl;
+	}
+
 };
 
 

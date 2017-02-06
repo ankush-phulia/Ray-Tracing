@@ -7,7 +7,6 @@
 #include "Matrix.h"
 #include <vector>
 #include <string>
-#include <iostream>
 #include <stdio.h>
 #include <fstream>
 
@@ -20,17 +19,17 @@ struct sphere {
 	float radius;
 
 	sphere() {
-		center = Point(0.0f, 0.0f, 0.0f);
+		center.set(0.0f, 0.0f, 0.0f);
 		radius = 0;
 	}
 
 	sphere(float x, float y, float z, float r) {
-		center = Point(x, y, z);
+		center.set(x, y, z);
 		radius = r;
 	}
 
 	sphere(float x, float y, float z, float r, float red, float g, float b, float ka1, float kd1, float ks1, float krg1, float ktg1, float mu1) {
-		center = Point(x, y, z);
+		center.set(x, y, z);
 		radius = r;
 		color.colorPixel(red, g, b);
 		ka = ka1;
@@ -51,15 +50,15 @@ struct triangle {
 	}
 
 	triangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3) {
-		v1 = Point(x1, y1, z1);
-		v2 = Point(x2, y2, z2);
-		v3 = Point(x3, y3, z3);
+		v1.set(x1, y1, z1);
+		v2.set(x2, y2, z2);
+		v3.set(x3, y3, z3);
 	}
 
 	triangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float r, float g, float b, float ka1, float kd1, float ks1, float krg1, float ktg1, float mu1) {
-		v1 = Point(x1, y1, z1);
-		v2 = Point(x2, y2, z2);
-		v3 = Point(x3, y3, z3);
+		v1.set(x1, y1, z1);
+		v2.set(x2, y2, z2);
+		v3.set(x3, y3, z3);
 		color.colorPixel(r, g, b);
 		ka = ka1;
 		ks = ks1;
@@ -75,12 +74,12 @@ struct light_source {
 	float intensity;
 
 	light_source() {
-		location = Point(0.0f, 0.0f, 0.0f);
+		location.set(0.0f, 0.0f, 0.0f);
 		intensity = 1;
 	}
 
 	light_source(float x, float y, float z, float i) {
-		location = Point(x, y, z);
+		location.set(x, y, z);
 		intensity = i;
 	}
 };
@@ -101,6 +100,7 @@ public:
 	Scene();
 	Scene(string s);
 
+	bool existRoot(const float &a, const float &b, const float &c, float &x0, float &x1);
 	bool RaySphereIntersect(Ray &ray, sphere &sphere, Point &intersection);
 	bool RayTriangleIntersect(Ray &ray, triangle &triangle, Point &intersection);
 	void printScene();

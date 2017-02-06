@@ -2,6 +2,7 @@
 #define Point_H
 
 #include <math.h>
+#include <iostream>
 
 class Point {
 
@@ -18,6 +19,10 @@ public:
 
 	Point(float a, float b, float c, float d) :
 		x(a), y(b), z(c), w(d) {
+	}
+
+	Point(Point &p) {
+		x = p.x; y = p.y; z = p.z; w = p.w;
 	}
 
 	void set(float a, float b, float c) {
@@ -49,6 +54,10 @@ public:
 		return (x*v2.x + y*v2.y + z*v2.z);
 	}
 	
+	inline void printPoint() {
+		std::cout << x << " " << y << " " << z << std::endl;
+	}
+
 	Point operator+(const Point &v2);
 	Point operator-(const Point &v2);
 	Point operator^(const Point &v2); //cross product
