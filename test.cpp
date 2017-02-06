@@ -12,7 +12,8 @@ int main() {
 	Point p6(0, 1, 1);
 	Point p7(1, 1, 1);
 
-	(p1^p2).printPoint();
+	p1 = p1^p2;
+	p1.printPoint();
 	cout << p3*p4 << endl;
 
 	Ray r1(0, 0, 0, 1, 0, 0);

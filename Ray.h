@@ -6,7 +6,7 @@
 class Ray {
 
 public:
-	
+
 	Point origin, direction;
 
 	Ray();

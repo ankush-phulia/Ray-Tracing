@@ -9,7 +9,7 @@
 class Image {
 
 public:
-	
+
 	Point center;
 	Point bottom_left_corner;
 	float dimX;
@@ -20,7 +20,7 @@ public:
 	Image();
 	Image(float x, float y, float z, float xc, float yc, float zc, float Xdim, float Ydim);
 	Image(Point &blcorner, Point &cent, float Xdim, float Ydim);
-	void Image::setBackground();
+	void setBackground();
 	void bitmap(int x, int y, Pixel **grid);
 
 };

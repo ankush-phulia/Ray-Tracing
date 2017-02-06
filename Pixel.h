@@ -1,5 +1,5 @@
-#ifndef Pixel_H
-#define Pixel_H
+#ifndef PIXEL_H
+#define PIXEL_H
 
 class Pixel {
 
@@ -31,7 +31,8 @@ public:
 	}
 
 	Pixel operator+(const Pixel &v2){
-		Pixel v(r,g,b);
+		Pixel v;
+		v.colorPixel(r,g,b);
 		v.r += v2.r;
 		v.g += v2.g;
 		v.b += v2.b;
