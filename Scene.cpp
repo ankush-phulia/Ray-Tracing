@@ -304,7 +304,7 @@ void Scene::writeImage() {
 			//direction.printPoint();
 			direction.normalise();
 			Ray R(eyeinWCS, direction);
-			//display.grid[i][j] = recursiveRayTrace(R, 1.0, true);
+			display.grid[i][j] = recursiveRayTrace(R, 1.0, true);
 			x = x + Point(0.0, 1.0/factor2, 0.0);
 		}
 		x = x + Point(1.0/factor1, 0.0, 0.0);
