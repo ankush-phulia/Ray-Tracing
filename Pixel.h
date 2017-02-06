@@ -6,8 +6,8 @@ class Pixel {
 public:
 	float r, g, b;
 
-	Pixel(void) :
-		r(0.0f), g(0.0f), b(0.0f) {
+	Pixel(){
+		r = (0.0f); g = (0.0f); b = (0.0f);
 	}
 
 	Pixel(Pixel &P)

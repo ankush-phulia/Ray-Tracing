@@ -15,7 +15,7 @@ using namespace std;
 struct sphere {
 	Point center;
 	Pixel color;
-	float ka, kd, ks, krg, ktg, mu;
+	float ka, kd, ks, krg, ktg, mu, n;
 	float radius;
 
 	sphere() {
@@ -28,7 +28,7 @@ struct sphere {
 		radius = r;
 	}
 
-	sphere(float x, float y, float z, float r, float red, float g, float b, float ka1, float kd1, float ks1, float krg1, float ktg1, float mu1) {
+	sphere(float x, float y, float z, float r, float red, float g, float b, float ka1, float kd1, float ks1, float krg1, float ktg1, float mu1, float n1) {
 		center.set(x, y, z);
 		radius = r;
 		color.colorPixel(red, g, b);
@@ -38,13 +38,14 @@ struct sphere {
 		krg = krg1;
 		ktg = ktg1;
 		mu = mu1;
+		n = n1;
 	}
 };
 
 struct triangle {
 	Point v1,v2,v3;
 	Pixel color;
-	float ka, kd, ks, krg, ktg, mu;
+	float ka, kd, ks, krg, ktg, mu, n;
 
 	triangle() {
 	}
@@ -55,7 +56,7 @@ struct triangle {
 		v3.set(x3, y3, z3);
 	}
 
-	triangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float r, float g, float b, float ka1, float kd1, float ks1, float krg1, float ktg1, float mu1) {
+	triangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float r, float g, float b, float ka1, float kd1, float ks1, float krg1, float ktg1, float mu1, float n1) {
 		v1.set(x1, y1, z1);
 		v2.set(x2, y2, z2);
 		v3.set(x3, y3, z3);
@@ -66,6 +67,7 @@ struct triangle {
 		krg = krg1;
 		ktg = ktg1;
 		mu = mu1;
+		n = n1;
 	}
 };
 
@@ -101,10 +103,10 @@ public:
 	Scene(string s);
 
 	bool existRoot(const float &a, const float &b, const float &c, float &x0, float &x1);
-	bool RaySphereIntersect(Ray &ray, sphere &sphere, float t, Point &intersection);
-	bool RayTriangleIntersect(Ray &ray, triangle &triangle, float t, Point &intersection);
+	bool RaySphereIntersect(Ray &ray, sphere &sphere, float &t, Point &intersection);
+	bool RayTriangleIntersect(Ray &ray, triangle &triangle, float &t, Point &intersection);
 	Pixel recursiveRayTrace(Ray &ray, float refractive_index, bool recurse);
-	void printScene();
+	void writeImage();
 };
 
 
