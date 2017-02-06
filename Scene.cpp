@@ -1,14 +1,13 @@
 #include "Scene.h"
-
 Scene::Scene(){
 }
 
-Scene::Scene(char* s){
+Scene::Scene(const char* s){
 	ifstream f_in;
 	f_in.open(s);
 	while (f_in.is_open()) {
 		char buffer[20];
-		string buffer;
+
 		float a, b, c, d, n, r, g, bl, ka, kd, ks, krg, ktg, mu, nn;
 		while (f_in >> buffer) {
 			if (buffer == "Camera") {

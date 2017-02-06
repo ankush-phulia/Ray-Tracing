@@ -103,7 +103,7 @@ public:
 	vector<triangle> Triangles;
 
 	Scene();
-	Scene(char *);
+	Scene(const char *);
 
 	bool existRoot(const float &a, const float &b, const float &c, float &x0, float &x1);
 	bool RaySphereIntersect(Ray &ray, sphere &sphere, float &t, Point &intersection);
