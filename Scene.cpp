@@ -101,7 +101,7 @@ bool Scene::existRoot(const float &a, const float &b, const float &c, float &x0,
 	return true;
 }
 
-bool Scene::RaySphereIntersect(Ray & ray, sphere & sphere, Point &intersection){
+bool Scene::RaySphereIntersect(Ray & ray, sphere & sphere, float t, Point &intersection){
 	float a, b, c, d, t1, t2;
 	Point temp = ray.origin - sphere.center;
 	Point tmpdir(ray.direction);
@@ -126,11 +126,13 @@ bool Scene::RaySphereIntersect(Ray & ray, sphere & sphere, Point &intersection){
 				return false;
 			}
 			else {
+				t = t2;
 				tmpdir.Scale(t2);
 				intersection = (ray.origin + tmpdir);
 			}
 		}
 		else {
+			t = t1;
 			tmpdir.Scale(t1);
 			intersection = (ray.origin + tmpdir);
 		}
@@ -138,7 +140,7 @@ bool Scene::RaySphereIntersect(Ray & ray, sphere & sphere, Point &intersection){
 	return true;
 }
 
-bool Scene::RayTriangleIntersect(Ray & ray, triangle & triangle, Point &intersection){
+bool Scene::RayTriangleIntersect(Ray & ray, triangle & triangle, float t, Point &intersection){
 	Point e1, e2, p, s, q;
 	Point tmpdir(ray.direction);
 	float a, f, u, v;	
@@ -167,7 +169,7 @@ bool Scene::RayTriangleIntersect(Ray & ray, triangle & triangle, Point &intersec
 		return false;
 	}
 
-	float t = (e2 * q) * f;
+	t = (e2 * q) * f;
 	if (t > 0) {
 		tmpdir.printPoint();
 		tmpdir.Scale(t);
@@ -178,21 +180,55 @@ bool Scene::RayTriangleIntersect(Ray & ray, triangle & triangle, Point &intersec
 	return false;
 }
 
-void Scene::printScene(){
+Pixel Scene::recursiveRayTrace(Ray &ray, float refrac_index){
+	Pixel p;
+	Point intersection;
+	float t = 0, minT = 0;
+	int type, pos;
+	for (int i = 0; i < Spheres.size(); ++i) {
+		if (RaySphereIntersect(ray, Spheres[i], t, intersection)) {
+			if (minT == 0 || minT > t) {
+				minT = t;
+				type = 0;					// type of object 0 for sphere 1 for triangle
+				pos = i;
+			}
+		}
+		for (int i = 0; i < Triangles.size(); ++i) {
+			if (RayTriangleIntersect(ray, Triangles[i], t, intersection)) {
+				if (minT == 0 || minT > t) {
+					minT = t;
+					type = 1;					// type of object 0 for sphere 1 for triangle
+					pos = i;
+				}
+			}
+		}
+		if (minT > 0) {
+			Point tmpdir = ray.direction;
+			tmpdir.Scale(minT);
+			Point intersection = ray.origin + tmpdir;
+			Ray tolighsources;
+			for (int i = 0; i < light_sources.size(); ++i){
+			}
+		}
+	}
+	return p;
+}
+
+void Scene::printScene() {
 	cout << light_sources.size() << endl;
 	Point eyeinWCS = VCStoWCS.transform(camera.origin) + VCSOrigin;
 	Point x = display.bottom_left_corner;
 	Point direction;
-	for(int i = 0; i< floor(display.dimX); i++){
-		for(int j = 0; j< floor(display.dimY); j++){
+	for (int i = 0; i < floor(display.dimX); i++) {
+		for (int j = 0; j < floor(display.dimY); j++) {
 			direction = x - camera.origin;
 			direction = VCStoWCS.transform(direction);
-			Ray R = Ray(eyeinWCS,direction);
-			Pixel p; //= recursiveRayTrace(R);
+			Ray R = Ray(eyeinWCS, direction);
+			Pixel p = recursiveRayTrace(R, 1.0f);
 			display.grid[i][j] = p;
-			x = x + Point(0.0,1.0,0.0);
+			x = x + Point(0.0, 1.0, 0.0);
 		}
-		x = x + Point(1.0,0.0,0.0);
+		x = x + Point(1.0, 0.0, 0.0);
 	}
 	//cout << objects.size() << endl;
 }

@@ -28,11 +28,12 @@ int main() {
 
 	sphere sph(2, 2, 2, 1);
 	Point int1,int2;
-	cout << s.RaySphereIntersect(r1, sph, int1) << " ";
+	float t = 0;
+	cout << s.RaySphereIntersect(r1, sph, t, int1) << " ";
 	int1.printPoint();
 
 	triangle tri(0,0,0, 2,0,0, 0,2,0);
-	cout << s.RayTriangleIntersect(r2, tri, int2) << " ";
+	cout << s.RayTriangleIntersect(r2, tri, t, int2) << " ";
 	int2.printPoint();
 
 	int done;
