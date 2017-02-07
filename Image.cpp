@@ -4,7 +4,7 @@
 
 Image::Image(){
 	center.set(0, 0, 0);
-	bottom_left_corner.set(-10, -10, 0);
+	top_left_corner.set(-10, 10, 0);
 	dimX = 20;
 	dimY = 20;
 	bg = Pixel();
@@ -16,7 +16,7 @@ Image::Image(){
 
 Image::Image(float x, float y, float z, float xc, float yc, float zc, float Xdim, float Ydim){
 	center.set(xc, yc, zc);
-	bottom_left_corner.set(x, y, z);
+	top_left_corner.set(x, y, z);
 	dimX = Xdim;
 	dimY = Ydim;
 	bg = Pixel();
@@ -27,7 +27,7 @@ Image::Image(float x, float y, float z, float xc, float yc, float zc, float Xdim
 }
 
 Image::Image(Point &blcorner, Point & cent, float Xdim, float Ydim){
-	bottom_left_corner = blcorner;
+	top_left_corner = blcorner;
 	center = cent;
 	dimX = Xdim;
 	dimY = Ydim;
