@@ -287,6 +287,7 @@ bool Scene::recursiveRayTrace(Ray &ray, double refrac_index, bool recurse, Pixel
 			//Precref.Scale(Triangles[pos].krg);
 		}
 		p.Scale(intense);
+		p.normalise();
 		//p = p + Precref;
 		outp = p;
 
