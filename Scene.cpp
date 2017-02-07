@@ -83,6 +83,13 @@ Scene::Scene(const char* s){
 	}
 }
 
+float absolute(float t)
+{	if(t<0)
+		return -t;
+	else
+		return t;
+}
+
 bool Scene::existRoot(const float &a, const float &b, const float &c, float &x0, float &x1) {
 	float discr = b * b - 4 * a * c;
 	if (discr < 0) {
@@ -98,8 +105,6 @@ bool Scene::existRoot(const float &a, const float &b, const float &c, float &x0,
 		x0 = q / a;
 		x1 = c / q;
 	}
-	if (x0 > x1)
-		swap(x0, x1);
 	return true;
 }
 
@@ -239,20 +244,20 @@ bool Scene::recursiveRayTrace(Ray &ray, float refrac_index, bool recurse, Pixel 
 			tmpdir.normalise();
 			Ray tolighsources(minInt,tmpdir);
 			Pixel pp;
-			if(recursiveRayTrace(tolighsources,1.0,false,pp)){     // if no obstacle between light source and intersection point
+			if(!recursiveRayTrace(tolighsources,1.0,false,pp)){     // if no obstacle between light source and intersection point
 				if(type == 0){
-				intense += Spheres[pos].kd * light_sources[i].intensity * (tmpdir*normal);
+					intense += Spheres[pos].kd * light_sources[i].intensity * absolute(tmpdir*normal);
 					Point H;
 					H = tmpdir - ray.direction;
 					H.normalise();
-					intense += Spheres[pos].ks * light_sources[i].intensity * pow((H*normal),Spheres[pos].n);
+					intense += Spheres[pos].ks * light_sources[i].intensity * absolute(pow((H*normal),Spheres[pos].n));
 				}
 				else{
-					intense += Triangles[pos].kd * light_sources[i].intensity * (tmpdir*normal);
+					intense += Triangles[pos].kd * light_sources[i].intensity * absolute((tmpdir*normal));
 					Point H;
 					H = tmpdir - ray.direction;
 					H.normalise();
-					intense += Spheres[pos].ks * light_sources[i].intensity * pow((H*normal),Triangles[pos].n);
+					intense += Spheres[pos].ks * light_sources[i].intensity * absolute(pow((H*normal),Triangles[pos].n));
 				}
 			}
 		}
@@ -287,7 +292,6 @@ bool Scene::recursiveRayTrace(Ray &ray, float refrac_index, bool recurse, Pixel 
 		return true;
 	}
 	else if (!recurse && minT > 0) {
-		outp.colorPixel(1.0, 1.0, 1.0);
 		return true;
 	}
 	return false;
