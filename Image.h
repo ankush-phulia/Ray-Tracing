@@ -12,7 +12,7 @@ class Image {
 public:
 
 	Point center;
-	Point bottom_left_corner;
+	Point top_left_corner;
 	float dimX;
 	float dimY;
 	Pixel bg;

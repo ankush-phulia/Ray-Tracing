@@ -44,7 +44,7 @@ Scene::Scene(const char* s){
 				f_in >> a >> b >> c >> d;
 				display.dimX = b - a;
 				display.dimY = c - d;
-				display.bottom_left_corner.set(-display.dimX/2,-display.dimY/2,0.0);
+				display.top_left_corner.set(-display.dimX/2,+display.dimY/2,0.0);
 			}
 			else if (buffer == "Light") {
 				f_in >> a >> b >> c >> d;
@@ -298,7 +298,7 @@ void Scene::writeImage() {
 	Point eyeinWCS;
 	eyeinWCS = VCStoWCS.transform(camera.origin) + VCSOrigin;
 	//eyeinWCS.printPoint();
-	Point x = display.bottom_left_corner;
+	Point x = display.top_left_corner;
 	Point direction;
 	//std::cout << floor(display.dimX)*factor1 << " " << floor(display.dimY)*factor2;
 	for (int i = 0; i < floor(display.dimX)*factor1; i++) {
@@ -310,9 +310,9 @@ void Scene::writeImage() {
 			Pixel P;
 			if(recursiveRayTrace(R, 1.0, true,P))
 				display.grid[i][j] = P;
-			x = x + Point(0.0, 1.0/factor2, 0.0);
+			x = x + Point(0.0, -1.0/factor2, 0.0);
 		}
-		x.y = display.bottom_left_corner.y;
+		x.y = display.top_left_corner.y;
 		x = x + Point(1.0/factor1, 0.0, 0.0);
 	}
 }
