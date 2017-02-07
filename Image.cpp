@@ -91,8 +91,8 @@ void Image::bitmap(int width, int height, Pixel** grid) {
 	bih.biBitCount = 24;
 	bih.biCompression = 0;
 	bih.biSizeImage = 0;
-	bih.biXPelsPerMeter = factor1;
-	bih.biYPelsPerMeter = factor2;
+	bih.biXPelsPerMeter = 5000;
+	bih.biYPelsPerMeter = 5000;
 	bih.biClrUsed = 0;
 	bih.biClrImportant = 0;
 
