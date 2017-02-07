@@ -7,17 +7,17 @@
 class Point {
 
 public:
-	float x, y, z, w;
+	double x, y, z, w;
 
 	Point(void) :
 		x(0.0f), y(0.0f), z(0.0f), w(1.0f) {
 	}
 
-	Point(float a, float b, float c) :
+	Point(double a, double b, double c) :
 		x(a), y(b), z(c), w(1.0f) {
 	}
 
-	Point(float a, float b, float c, float d) :
+	Point(double a, double b, double c, double d) :
 		x(a), y(b), z(c), w(d) {
 	}
 
@@ -25,7 +25,7 @@ public:
 		x = p.x; y = p.y; z = p.z; w = p.w;
 	}
 
-	void set(float a, float b, float c) {
+	void set(double a, double b, double c) {
 		x = a; y = b; z = c;
 	}
 
@@ -33,24 +33,24 @@ public:
 		return ((v2.x == x) && (v2.y == y) && (v2.z == z) && (v2.w == w));
 	}
 
-	inline float Magnitude() {
+	inline double Magnitude() {
 		return sqrt(x*x + y*y + z*z);
 	}
 
 	inline void normalise() {
-		float m = Magnitude();
+		double m = Magnitude();
 		x /= m; y /= m; z /= m;
 	}
 
-	inline float sum() {
+	inline double sum() {
 		return x + y + z;
 	}
 
-	inline void Scale(float factor) {
+	inline void Scale(double factor) {
 		x *= factor; y *= factor; z *= factor;
 	}
 
-	inline float operator*(const Point &v2) {
+	inline double operator*(const Point &v2) {
 		return (x*v2.x + y*v2.y + z*v2.z);
 	}
 

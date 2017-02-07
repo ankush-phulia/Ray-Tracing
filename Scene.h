@@ -16,15 +16,15 @@ class sphere {
 public:
 	Point center;
 	Pixel color;
-	float ka, kd, ks, krg, ktg, mu, n;
-	float radius;			// lusture
+	double ka, kd, ks, krg, ktg, mu, n;
+	double radius;			// lusture
 
 	sphere() {
 		center.set(0.0f, 0.0f, 0.0f);
 		radius = 0;
 	}
 
-	sphere(float x, float y, float z, float r) {
+	sphere(double x, double y, double z, double r) {
 		center.set(x, y, z);
 		radius = r;
 	}
@@ -42,7 +42,7 @@ public:
 		radius = s.radius;
 	}
 
-	void set(float x, float y, float z, float r, float red, float g, float b, float ka1, float kd1, float ks1, float krg1, float ktg1, float mu1, float n1) {
+	void set(double x, double y, double z, double r, double red, double g, double b, double ka1, double kd1, double ks1, double krg1, double ktg1, double mu1, double n1) {
 		center.set(x, y, z);
 		radius = r;
 		color.colorPixel(red, g, b);
@@ -60,12 +60,12 @@ class triangle {
 public:
 	Point v1,v2,v3;
 	Pixel color;
-	float ka, kd, ks, krg, ktg, mu, n;
+	double ka, kd, ks, krg, ktg, mu, n;
 
 	triangle() {
 	}
 
-	triangle(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3) {
+	triangle(double x1, double y1, double z1, double x2, double y2, double z2, double x3, double y3, double z3) {
 		v1.set(x1, y1, z1);
 		v2.set(x2, y2, z2);
 		v3.set(x3, y3, z3);
@@ -85,7 +85,7 @@ public:
 		n = s.n;
 	}
 
-	void set(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float r, float g, float b, float ka1, float kd1, float ks1, float krg1, float ktg1, float mu1, float n1) {
+	void set(double x1, double y1, double z1, double x2, double y2, double z2, double x3, double y3, double z3, double r, double g, double b, double ka1, double kd1, double ks1, double krg1, double ktg1, double mu1, double n1) {
 		v1.set(x1, y1, z1);
 		v2.set(x2, y2, z2);
 		v3.set(x3, y3, z3);
@@ -103,14 +103,14 @@ public:
 class light_source {
 public:
 	Point location;
-	float intensity;
+	double intensity;
 
 	light_source() {
 		location.set(0.0f, 0.0f, 0.0f);
 		intensity = 1;
 	}
 
-	light_source(float x, float y, float z, float i) {
+	light_source(double x, double y, double z, double i) {
 		location.set(x, y, z);
 		intensity = i;
 	}
@@ -128,19 +128,20 @@ public:
 	Point VCSOrigin;
 	Matrix VCStoWCS;
 	Image display; //location of the display
-	light_source light_sources[10];
-	float ambient_light, bgr, bgg, bgb;
-	sphere Spheres[10];
-	triangle Triangles[10];
+	light_source *light_sources;
+	double ambient_light, bgr, bgg, bgb;
+	sphere *Spheres;
+	triangle *Triangles;
 	int sn,tn,ln;
 
 	Scene();
+	~Scene();
 	Scene(const char *);
 
-	bool existRoot(const float &a, const float &b, const float &c, float &x0, float &x1);
-	bool RaySphereIntersect(Ray &ray, sphere &sphere, float &t, Point &intersection);
-	bool RayTriangleIntersect(Ray &ray, triangle &triangle, float &t, Point &intersection);
-	bool recursiveRayTrace(Ray &ray, float refractive_index, bool recurse, Pixel &);
+	bool existRoot(const double &a, const double &b, const double &c, double &x0, double &x1);
+	bool RaySphereIntersect(Ray &ray, sphere &sphere, double &t, Point &intersection);
+	bool RayTriangleIntersect(Ray &ray, triangle &triangle, double &t, Point &intersection);
+	bool recursiveRayTrace(Ray &ray, double refractive_index, bool recurse, Pixel &);
 	void writeImage();
 	void printImage();
 };

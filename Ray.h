@@ -10,15 +10,15 @@ public:
 	Point origin, direction;
 
 	Ray();
-	Ray(float x, float y, float z);
-	Ray(float x1, float y1, float z1, float x2, float y2, float z2);
+	Ray(double x, double y, double z);
+	Ray(double x1, double y1, double z1, double x2, double y2, double z2);
 	Ray(Point &dir);
 	Ray(Point &ori, Point &dir);
 
-	inline void setOrigin(float x, float y, float z) {
+	inline void setOrigin(double x, double y, double z) {
 		origin.set(x, y, z);
 	}
-	inline void setDirection(float x, float y, float z) {
+	inline void setDirection(double x, double y, double z) {
 		direction.set(x, y, z);
 	}
 

@@ -13,7 +13,7 @@ Matrix::Matrix(void){                //identity matrix
 	}
 }
 
-Matrix::Matrix(float m[][4]){
+Matrix::Matrix(double m[][4]){
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			M[i][j] = m[i][j];
@@ -34,7 +34,7 @@ Point Matrix::transform(Point &P){
 	return P1;
 }
 
-void Matrix::Scale(float factor){
+void Matrix::Scale(double factor){
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			M[i][j] *= factor;
@@ -55,7 +55,7 @@ bool Matrix::operator==(const Matrix &m2){
 
 Matrix Matrix::operator*(const Matrix &m2){
 	Matrix Mat(M);
-	float s;
+	double s;
 	for(int i = 0; i<4; i++){
 		for (int j = 0; j < 4; j++) {
 			s = 0.0f;
