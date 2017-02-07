@@ -1,8 +1,8 @@
 #ifndef Image_H
 #define Image_H
 
-#define factor1 10
-#define factor2 10
+#define factor1 30
+#define factor2 30
 
 #include "Pixel.h"
 #include "Ray.h"
@@ -13,14 +13,15 @@ public:
 
 	Point center;
 	Point top_left_corner;
-	float dimX;
-	float dimY;
+	double dimX;
+	double dimY;
 	Pixel bg;
 	Pixel **grid;
 
 	Image();
-	Image(float x, float y, float z, float xc, float yc, float zc, float Xdim, float Ydim);
-	Image(Point &blcorner, Point &cent, float Xdim, float Ydim);
+	~Image();
+	Image(double x, double y, double z, double xc, double yc, double zc, double Xdim, double Ydim);
+	Image(Point &blcorner, Point &cent, double Xdim, double Ydim);
 	void setBackground();
 	void bitmap(int x, int y, Pixel **grid);
 

@@ -14,7 +14,15 @@ Image::Image(){
 	}
 }
 
-Image::Image(float x, float y, float z, float xc, float yc, float zc, float Xdim, float Ydim){
+Image::~Image(){
+	for (int i = 0; i<floor(dimX)*factor1; i++) {
+		delete[] grid[i];
+	}
+	delete[] grid ;
+}
+
+
+Image::Image(double x, double y, double z, double xc, double yc, double zc, double Xdim, double Ydim){
 	center.set(xc, yc, zc);
 	top_left_corner.set(x, y, z);
 	dimX = Xdim;
@@ -26,7 +34,7 @@ Image::Image(float x, float y, float z, float xc, float yc, float zc, float Xdim
 	}
 }
 
-Image::Image(Point &blcorner, Point & cent, float Xdim, float Ydim){
+Image::Image(Point &blcorner, Point & cent, double Xdim, double Ydim){
 	top_left_corner = blcorner;
 	center = cent;
 	dimX = Xdim;
@@ -104,8 +112,8 @@ void Image::bitmap(int width, int height, Pixel** grid) {
 		for (int x = 0; x < bih.biWidth; x++) { /*Column loop forwards*/
 												/*compute some pixel values*/
 			Pixel p = grid[x][y];
-			unsigned char r = (char)p.r;/*255 * ((float)x / bih.biWidth);*/
-			unsigned char g = (char)p.g;/*255 * ((float)y / bih.biHeight);*/
+			unsigned char r = (char)p.r;/*255 * ((double)x / bih.biWidth);*/
+			unsigned char g = (char)p.g;/*255 * ((double)y / bih.biHeight);*/
 			unsigned char b = (char)p.b;
 			fwrite(&b, 1, 1, file);
 			fwrite(&g, 1, 1, file);

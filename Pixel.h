@@ -4,7 +4,7 @@
 class Pixel {
 
 public:
-	float r, g, b;
+	double r, g, b;
 
 	Pixel(){
 		r = (0.0f); g = (0.0f); b = (0.0f);
@@ -16,7 +16,7 @@ public:
 		b = P.b;
 	}
 
-	inline void colorPixel(float x ,float y, float z) {
+	inline void colorPixel(double x ,double y, double z) {
 		r = x; g = y; b = z;
 	}
 
@@ -24,7 +24,7 @@ public:
 		r = 0; g = 0; b = 0;
 	}
 
-	inline void Scale(float x)
+	inline void Scale(double x)
 	{	r *= x;
 		g *= x;
 		b *= x;

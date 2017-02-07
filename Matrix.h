@@ -7,11 +7,11 @@
 class Matrix {
 
 public:
-	float M[4][4];
+	double M[4][4];
 
 	Matrix(void);
-	Matrix(float m[][4]);
-	void Scale(float factor);
+	Matrix(double m[][4]);
+	void Scale(double factor);
 	bool operator==(const Matrix &);
 	Matrix operator*(const Matrix &);
 	Matrix operator+(const Matrix &);
