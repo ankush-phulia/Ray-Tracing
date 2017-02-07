@@ -198,11 +198,11 @@ bool Scene::RayTriangleIntersect(Ray & ray, triangle & triangle, double &t, Poin
 bool Scene::recursiveRayTrace(Ray &ray, double refrac_index, bool recurse, Pixel &outp){
 	Pixel p;
 	Point intersection,minInt;
-	double t = 0, minT = 0;
+	double t = 0, minT = -1;
 	int type, pos;
 	for (int i = 0; i < sn; ++i) {
 		if (RaySphereIntersect(ray, Spheres[i], t, intersection)) {
-			if (minT == 0 || minT > t) {
+			if ((minT == -1 || minT > t) && ((int)t) !=0) {
 				minT = t;
 				type = 0;					// type of object 0 for sphere 1 for triangle
 				pos = i;
@@ -212,7 +212,7 @@ bool Scene::recursiveRayTrace(Ray &ray, double refrac_index, bool recurse, Pixel
 	}
 	for (int i = 0; i < tn; ++i) {
 		if (RayTriangleIntersect(ray, Triangles[i], t, intersection)) {
-			if (minT == 0 || minT > t) {
+			if ((minT == -1 || minT > t) && ((int)t) !=0) {
 				minT = t;
 				type = 1;					// type of object 0 for sphere 1 for triangle
 				pos = i;
@@ -293,7 +293,7 @@ bool Scene::recursiveRayTrace(Ray &ray, double refrac_index, bool recurse, Pixel
 
 		return true;
 	}
-	else if (!recurse && minT > 0) {
+	else if (!recurse && minT > 0.00000000000) {
 		return true;
 	}
 	return false;
