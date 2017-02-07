@@ -254,17 +254,17 @@ bool Scene::recursiveRayTrace(Ray &ray, double refrac_index, bool recurse, Pixel
 			if(!recursiveRayTrace(tolighsources,1.0,false,pp)){     // if no obstacle between light source and intersection point
 				if(type == 0){
 					intense += Spheres[pos].kd * light_sources[i].intensity * absolute(tmpdir*normal);
-					/*Point H;
+					Point H;
 					H = tmpdir - ray.direction;
 					H.normalise();
-					intense += Spheres[pos].ks * light_sources[i].intensity * absolute(pow((H*normal),Spheres[pos].n));*/
+					intense += Spheres[pos].ks * light_sources[i].intensity * absolute(pow((H*normal),Spheres[pos].n));
 				}
 				else{
 					intense += Triangles[pos].kd * light_sources[i].intensity * absolute((tmpdir*normal));
-					/*Point H;
+					Point H;
 					H = tmpdir - ray.direction;
 					H.normalise();
-					intense += Spheres[pos].ks * light_sources[i].intensity * absolute(pow((H*normal),Triangles[pos].n));*/
+					intense += Spheres[pos].ks * light_sources[i].intensity * absolute(pow((H*normal),Triangles[pos].n));
 				}
 			}
 		}
