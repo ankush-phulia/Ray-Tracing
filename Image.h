@@ -3,6 +3,7 @@
 
 #define factor1 30
 #define factor2 30
+#define factor3 3
 
 #include "Pixel.h"
 #include "Ray.h"

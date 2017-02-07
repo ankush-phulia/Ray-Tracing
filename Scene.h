@@ -141,7 +141,7 @@ public:
 	bool existRoot(const double &a, const double &b, const double &c, double &x0, double &x1);
 	bool RaySphereIntersect(Ray &ray, sphere &sphere, double &t, Point &intersection);
 	bool RayTriangleIntersect(Ray &ray, triangle &triangle, double &t, Point &intersection);
-	bool recursiveRayTrace(Ray &ray, double refractive_index, bool recurse, Pixel &);
+	bool recursiveRayTrace(Ray &ray, double refractive_index, bool recurse, Pixel &, int);
 	void writeImage();
 	void printImage();
 };

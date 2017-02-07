@@ -111,15 +111,21 @@ void Image::bitmap(int width, int height, Pixel** grid) {
 	for (int y = bih.biHeight - 1; y >= 0; y--) { /*Scanline loop backwards*/
 		for (int x = 0; x < bih.biWidth; x++) { /*Column loop forwards*/
 												/*compute some pixel values*/
-			Pixel p = grid[x][y];
-			unsigned char r = (char)p.r;/*255 * ((double)x / bih.biWidth);*/
-			unsigned char g = (char)p.g;/*255 * ((double)y / bih.biHeight);*/
-			unsigned char b = (char)p.b;
+			//Pixel p = grid[x][y];
+			float rr = 0, gg = 0, bb = 0;
+			for (int j = 0; j < factor3; j++) {
+				for (int i = 0; i < factor3; i++) {
+					Pixel p = grid[factor3*x + i][factor3*y + j];
+					rr += p.r; gg += p.g; bb += p.b;
+				}
+			}
+			unsigned char r = (char)rr/(factor3*factor3);/*255 * ((double)x / bih.biWidth);*/
+			unsigned char g = (char)gg/(factor3*factor3);/*255 * ((double)y / bih.biHeight);*/
+			unsigned char b = (char)bb/(factor3*factor3);
 			fwrite(&b, 1, 1, file);
 			fwrite(&g, 1, 1, file);
 			fwrite(&r, 1, 1, file);
 		}
 	}
 	fclose(file);
-	std::cout << "Done";
 }

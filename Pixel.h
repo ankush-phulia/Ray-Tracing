@@ -39,14 +39,13 @@ public:
 		return v;
 	}
 
-	void normalise()
-	{	if(r>255)
+	void normalise(){	
+		if(r>255)
 			Scale(255/r);
 		if(g>255)
 			Scale(255/g);
 		if(b>255)
 			Scale(255/b);
-
 	}
 
 

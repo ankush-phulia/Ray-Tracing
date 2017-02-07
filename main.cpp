@@ -1,7 +1,7 @@
 #include "Scene.h"
 #include "Image.h"
 using namespace std;
-int main() {
+int main(int argc, char* argv[]) {
 
 	/*Point p0(0, 0, 0);
 	Point p1(1, 0, 0);
