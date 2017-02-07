@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
 	i.setBackground();
 	i.bitmap(20 * 20, 20 * 20, i.grid);*/
 
-	Scene s("sample_input.txt");
+	Scene s(argv[1]);
 	s.writeImage();
 	s.printImage();
 
