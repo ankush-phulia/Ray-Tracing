@@ -77,8 +77,10 @@ Scene::Scene(const char* s){
 				f_in >> sn;
 				Spheres = new sphere[sn];
 				for (int i = 0; i < sn; i++) {
+					double a1, a2, a3, a4, a5, a6, a7, a8, a9;
 					f_in >> a >> b >> c >> d >> r >> g >> bl >> ka >> kd >> ks >> krg >> ktg >> mu >> nn;
-					Spheres[i].set(a, b, c, d, r, g, bl, ka, kd, ks, krg, ktg, mu, nn);
+					f_in >> a1 >> a2 >> a3 >> a4 >> a5 >> a6 >> a7 >> a8 >> a9;
+					Spheres[i].set(a, b, c, d, r, g, bl, ka, kd, ks, krg, ktg, mu, nn, a1,a2,a3,a4,a5,a6,a7,a8,a9);				
 				}
 			}
 			else if (buffer == "Triangles") {

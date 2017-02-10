@@ -34,6 +34,19 @@ Point Matrix::transform(Point &P){
 	return P1;
 }
 
+Matrix::Matrix(double a1, double a2, double a3, double a4, double a5, double a6,
+	double a7, double a8, double a9) {
+	M[0][0] = a1;
+	M[0][1] = a2;
+	M[0][2] = a3;
+	M[1][0] = a4;
+	M[1][1] = a5;
+	M[1][2] = a6;
+	M[2][0] = a7;
+	M[2][1] = a8;
+	M[1][2] = a9;
+}
+
 void Matrix::Scale(double factor){
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
@@ -86,6 +99,30 @@ Matrix Matrix::operator-(const Matrix &m2){
 	  }
   }
   return Mat;
+}
+
+Matrix Matrix::transpose() {
+	Matrix m = Matrix();
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			m.M[i][j] = M[j][i];
+		}
+		return m;
+	}
+}
+
+Matrix Matrix::inverse() {
+	Matrix m = Matrix();
+	m.M[0][0] = M[2][2] * M[1][1] - M[2][1] * M[1][2];
+	m.M[0][1] = -(M[2][2] * M[0][1] - M[2][1] * M[0][2]);
+	m.M[0][2] = M[1][2] * M[0][1] - M[1][1] * M[0][2];
+	m.M[1][0] = -(M[2][2] * M[1][0] - M[2][0] * M[1][2]);
+	m.M[1][1] = (M[2][2] * M[0][0] - M[2][0] * M[0][2]);
+	m.M[1][2] = -(M[1][2]*M[0][0] - M[1][0] * M[0][2]);
+	m.M[2][0] = (M[2][1] * M[1][0] - M[2][0] * M[1][1]);
+	m.M[2][1] = -(M[2][1] * M[0][0] - M[2][0] * M[0][1]);
+	m.M[2][2] = (M[1][1] * M[0][0] - M[1][0] * M[0][1]);
+	return m;
 }
 
 void Matrix::print() {

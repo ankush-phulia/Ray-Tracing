@@ -18,6 +18,7 @@ public:
 	Pixel color;
 	double ka, kd, ks, krg, ktg, mu, n;
 	double radius;			// lusture
+	Matrix trans;
 
 	sphere() {
 		center.set(0.0f, 0.0f, 0.0f);
@@ -29,8 +30,8 @@ public:
 		radius = r;
 	}
 
-	sphere(sphere &s)
-	{	center = s.center;
+	sphere(sphere &s){
+		center = s.center;
 		color = s.color;
 		ka = s.ka;
 		kd = s.kd;
@@ -53,6 +54,21 @@ public:
 		ktg = ktg1;
 		mu = mu1;
 		n = n1;
+	}
+
+	void set(double x, double y, double z, double r, double red, double g, double b, double ka1, double kd1, double ks1, double krg1, double ktg1, double mu1, double n1, double a1, double a2, double a3, double a4, double a5, double a6,
+		double a7, double a8, double a9) {
+		center.set(x, y, z);
+		radius = r;
+		color.colorPixel(red, g, b);
+		ka = ka1;
+		ks = ks1;
+		kd = kd1;
+		krg = krg1;
+		ktg = ktg1;
+		mu = mu1;
+		n = n1;
+		trans = Matrix(a1, a2, a3, a4, a5, a6, a7, a8, a9);
 	}
 };
 
