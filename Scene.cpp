@@ -97,8 +97,8 @@ Scene::Scene(const char* s){
 	}
 }
 
-double absolute(double t)
-{	if(t<0)
+double absolute(double t){
+	if(t<0)
 		return -t;
 	else
 		return t;
@@ -123,6 +123,7 @@ bool Scene::existRoot(const double &a, const double &b, const double &c, double 
 }
 
 bool Scene::RaySphereIntersect(Ray & ray, sphere & sphere, double &t, Point &intersection){
+	Ray ray1 = Ray(sphere.trans.transform(ray.origin),sphere.trans.transform(ray.direction));
 	double a, b, c, t1, t2;
 	Point temp;
 	temp = ray.origin - sphere.center;
