@@ -1,8 +1,11 @@
-compile :
-	g++ Matrix.cpp Image.cpp Ray.cpp Point.cpp Scene.cpp main.cpp -o main
+CC = g++
+CXXFLAGS = -std=c++11 -O3 -I include/
+
+all : src/*.cpp
+	$(CC) src/*.cpp $(CXXFLAGS) -o fpm
 
 run :
 	./main ${input}
 
-clear :
+clean : 
 	rm main out.bmp

@@ -129,15 +129,9 @@ bool Scene::RaySphereIntersect(Ray &ray, sphere &sphere, double &t,
     Point temp;
     temp = ray.origin - sphere.center;
     Point tmpdir(ray.direction);
-    // tmpdir.normalise();
-    // tmpdir.printPoint();
     a = (tmpdir * tmpdir);
-    // temp.printPoint();
     b = 2 * (tmpdir * temp);
-    // temp.printPoint();
     c = temp * temp - sphere.radius * sphere.radius;
-    // std::cout << a << " " << b << " " << c << " " << sphere.radius<<
-    // std::endl;
 
     if (!existRoot(a, b, c, t1, t2)) {
         return false;
