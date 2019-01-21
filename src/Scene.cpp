@@ -123,8 +123,6 @@ bool Scene::existRoot(const double &a, const double &b, const double &c,
 
 bool Scene::RaySphereIntersect(Ray &ray, sphere &sphere, double &t,
                                Point &intersection) {
-    Ray ray1 = Ray(sphere.trans.transform(ray.origin),
-                   sphere.trans.transform(ray.direction));
     double a, b, c, t1, t2;
     Point temp;
     temp = ray.origin - sphere.center;
@@ -276,7 +274,6 @@ bool Scene::recursiveRayTrace(Ray &ray, double refrac_index, bool recurse,
                 }
             }
         }
->>>>>>> 9ab2cc5... Code formatting
 
         Point tmpdir = ray.direction;
         tmpdir.Scale(-1);

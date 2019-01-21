@@ -137,5 +137,4 @@ void Image::bitmap(int width, int height, Pixel **grid) {
         }
     }
     fclose(file);
->>>>>>> 9ab2cc5... Code formatting
 }
